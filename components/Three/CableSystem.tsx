@@ -25,8 +25,8 @@ const cableFragmentShader = `
     // Create a traveling pulse
     // vUv.x runs along the length of the tube
     float speed = 2.0;
-    float pulsePosition = mod(uTime * speed, 40.0); // Increased modulus for longer cable
-    float distance = abs(vUv.x * 40.0 - pulsePosition); // Adjusted scale
+    float pulsePosition = mod(uTime * speed, 800.0); // Increased modulus for longer cable
+    float distance = abs(vUv.x * 800.0 - pulsePosition); // Adjusted scale for length
     
     // Sharp glow
     float pulse = 1.0 / (distance * 5.0 + 0.1);
@@ -49,19 +49,31 @@ const CableSystem: React.FC = () => {
     // Squeeze factor for mobile to keep cable within view
     const widthScale = isMobile ? 0.4 : 1.0;
 
+    const points: THREE.Vector3[] = [
+      new THREE.Vector3(0, -1.5, 0),      // Connects to transformer
+      new THREE.Vector3(0, -5, 0),        // Drop down
+    ];
+
+    // Procedurally generate twists down to Y = -2000
+    // Experimentally deeper to ensure it covers even the longest pages
+    const depth = 4000;
+    const step = 25;
+    let currentY = -5;
+
+    while (currentY > -depth) {
+      // Twist Right
+      points.push(new THREE.Vector3(0.5 * widthScale, currentY - 10, 1));
+      // Twist Left
+      points.push(new THREE.Vector3(-0.5 * widthScale, currentY - 25, -1));
+
+      currentY -= 25;
+    }
+
+    // Final straight drop at the very bottom
+    points.push(new THREE.Vector3(0, -depth - 50, 0));
+
     return new THREE.CatmullRomCurve3(
-      [
-        new THREE.Vector3(0, -1.5, 0),      // Connects to transformer
-        new THREE.Vector3(0, -5, 0),        // Drop down
-        new THREE.Vector3(0.5 * widthScale, -15, 1),     // Slight twist
-        new THREE.Vector3(-0.5 * widthScale, -30, -1),   // Twist back
-        new THREE.Vector3(0, -50, 0),       // Straighten
-        new THREE.Vector3(0.8 * widthScale, -75, 0.5),   // Lower section twist
-        new THREE.Vector3(-0.8 * widthScale, -100, -0.5),// Continue deeper
-        new THREE.Vector3(0.5 * widthScale, -130, 0.3),  // Another twist
-        new THREE.Vector3(-0.5 * widthScale, -160, -0.3),// Twist back
-        new THREE.Vector3(0, -200, 0)       // Footer connection
-      ],
+      points,
       false,
       'catmullrom',
       0.2
@@ -82,8 +94,8 @@ const CableSystem: React.FC = () => {
   });
 
   return (
-    <mesh ref={meshRef} position={[0, 0, 0]}>
-      <tubeGeometry args={[curve, 256, isMobile ? 0.08 : 0.12, 6, false]} />
+    <mesh ref={meshRef} position={[0, 0, 0]} frustumCulled={false}>
+      <tubeGeometry args={[curve, 2048, isMobile ? 0.08 : 0.12, 6, false]} />
       <shaderMaterial
         vertexShader={cableVertexShader}
         fragmentShader={cableFragmentShader}

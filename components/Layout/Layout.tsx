@@ -6,18 +6,17 @@ import Footer from './Footer';
 import IgnitionLoader from '../UI/IgnitionLoader';
 import { AppState } from '../../types';
 
+import Scene from '../Three/Scene';
+import ScrollManager from '../Utils/ScrollManager';
+import NeuralChat from '../UI/NeuralChat';
+
 const Layout: React.FC = () => {
     const [appState, setAppState] = useState<AppState>(AppState.IGNITION);
     const lenisRef = useRef<any>(null);
     const location = useLocation();
 
-    // Reset scroll on route change
-    useEffect(() => {
-        if (lenisRef.current?.lenis) {
-            lenisRef.current.lenis.scrollTo(0, { immediate: true });
-        }
-        window.scrollTo(0, 0);
-    }, [location.pathname]);
+    // Check if we're on home page
+    const isHomePage = location.pathname === '/';
 
     useEffect(() => {
         const body = document.body;
@@ -57,13 +56,25 @@ const Layout: React.FC = () => {
                 wheelMultiplier: 1.2,
             }}
         >
+            <ScrollManager />
+
+            {/* Global HUD Widgets - Only visible when app is running */}
+            {appState === AppState.RUNNING && (
+                <NeuralChat />
+            )}
+
             <div className="min-h-screen bg-[#F5F5F7] text-[#1D1D1F] relative w-full overflow-x-hidden flex flex-col justify-between">
+
+                {/* Global 3D Background - Always visible everywhere */}
+                <div className={`fixed inset-0 z-0 pointer-events-none transition-all duration-1000 ${isHomePage ? 'opacity-100 blur-none' : 'opacity-50 blur-[3px]'}`}>
+                    <Scene />
+                </div>
 
                 {/* Loading Screen - Only runs once on initial load ideally, but for now kept simple */}
                 <IgnitionLoader onComplete={handleIgnitionComplete} />
 
                 {/* Global Transitions */}
-                <div className={`transition-opacity duration-1000 w-full flex-grow ${appState === AppState.RUNNING ? 'opacity-100' : 'opacity-0'}`}>
+                <div className={`transition-opacity duration-1000 w-full flex-grow relative ${appState === AppState.RUNNING ? 'opacity-100' : 'opacity-0'}`}>
                     <Header />
 
                     <main className="w-full relative z-10 flex-grow">
