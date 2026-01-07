@@ -2,40 +2,73 @@ import React from 'react';
 
 const Transmission: React.FC = () => {
   return (
-    <section id="transmission" className="min-h-[150vh] relative z-20 py-24 md:py-48 flex flex-col justify-center">
+    <section id="transmission" className="min-h-[200vh] relative z-20 py-24 md:py-48 flex flex-col justify-center">
 
       {/* Spacer to push content down the cable */}
       <div className="h-[20vh] w-full"></div>
 
-      {/* Block 1: Left (Top on Mobile) */}
+      {/* Block 1: Kurumsal Kimlik */}
       <div className="w-full max-w-7xl px-6 flex justify-start mb-32 md:mb-64">
         <div className="w-full md:w-auto md:max-w-md backdrop-blur-md bg-white/40 md:bg-white/10 p-8 rounded-xl border border-white/40 md:border-white/20 shadow-xl md:ml-12 transform transition-all duration-700 hover:scale-105">
-          <span className="text-xs font-bold text-[#2997FF] uppercase tracking-widest mb-2 block">01 — Altyapı</span>
-          <h3 className="text-2xl md:text-3xl font-light tracking-tight text-[#1D1D1F] mb-4">Şebeke Direnci</h3>
+          <span className="text-xs font-bold text-[#2997FF] uppercase tracking-widest mb-2 block">01 — Tecrübe</span>
+          <h3 className="text-2xl md:text-3xl font-light tracking-tight text-[#1D1D1F] mb-4">2014'ten Bugüne</h3>
           <p className="text-[#1D1D1F] md:text-[#1D1D1F]/70 text-sm leading-relaxed font-medium md:font-normal">
-            Kıtalararası mesafelerde sıfır enerji kaybı sağlamak için süper iletken materyaller kullanan yüksek voltaj hatları.
+            10 yılı aşkın süredir seçkin müşteri grubuna Elektrik Proje ve Taahhüt hizmeti vermekteyiz. Mesleki yeterlilik belgelerine sahip, genç ve dinamik kadromuzla kaliteyi prensip edindik.
           </p>
         </div>
       </div>
 
-      {/* Block 2: Right (Bottom on Mobile) */}
+      {/* Block 2: Proje Hizmetleri */}
       <div className="w-full max-w-7xl px-6 flex justify-end mb-32">
         <div className="w-full md:w-auto md:max-w-md backdrop-blur-md bg-white/40 md:bg-white/10 p-8 rounded-xl border border-white/40 md:border-white/20 shadow-xl md:mr-12 transform transition-all duration-700 hover:scale-105">
-          <span className="text-xs font-bold text-[#2997FF] uppercase tracking-widest mb-2 block">02 — Hız</span>
-          <h3 className="text-2xl md:text-3xl font-light tracking-tight text-[#1D1D1F] mb-4">Sıfır Gecikme</h3>
+          <span className="text-xs font-bold text-[#2997FF] uppercase tracking-widest mb-2 block">02 — Proje</span>
+          <h3 className="text-2xl md:text-3xl font-light tracking-tight text-[#1D1D1F] mb-4">Projelendirme</h3>
           <p className="text-[#1D1D1F] md:text-[#1D1D1F]/70 text-sm leading-relaxed font-medium md:font-normal">
-            Kuantum yük dengeleme sistemleri ile anlık tüketim artışlarına mikrosaniyeler içinde yanıt veren adaptif şebeke.
+            Ön etüt çalışmalarından uygulama projelerine, mimari-mekanik koordinasyondan ihale dosyası hazırlanmasına kadar kapsamlı projelendirme hizmetleri.
           </p>
         </div>
       </div>
 
-      {/* Block 3: Left (New Content) */}
+      {/* Block 3: Yüksek & Orta Gerilim */}
       <div className="w-full max-w-7xl px-6 flex justify-start mb-32 md:mb-64">
         <div className="w-full md:w-auto md:max-w-md backdrop-blur-md bg-white/40 md:bg-white/10 p-8 rounded-xl border border-white/40 md:border-white/20 shadow-xl md:ml-12 transform transition-all duration-700 hover:scale-105">
-          <span className="text-xs font-bold text-[#2997FF] uppercase tracking-widest mb-2 block">03 — Güvenlik</span>
-          <h3 className="text-2xl md:text-3xl font-light tracking-tight text-[#1D1D1F] mb-4">Kesintisiz Akış</h3>
+          <span className="text-xs font-bold text-[#2997FF] uppercase tracking-widest mb-2 block">03 — Yüksek Gerilim</span>
+          <h3 className="text-2xl md:text-3xl font-light tracking-tight text-[#1D1D1F] mb-4">OG & Trafo Merkezi</h3>
           <p className="text-[#1D1D1F] md:text-[#1D1D1F]/70 text-sm leading-relaxed font-medium md:font-normal">
-            Yapay zeka defans sistemleri ile %99.99 uptime garantisi ve siber tehditlere karşı tam koruma.
+            Orta Gerilim sistemleri, Trafo Merkezi kurulumu, Enerji İletim ve Dağıtım Tesisatı konularında uzman kadromuzla güvenli ve kesintisiz enerji sağlıyoruz.
+          </p>
+        </div>
+      </div>
+
+      {/* Block 4: Alçak Gerilim & Güç Sistemleri */}
+      <div className="w-full max-w-7xl px-6 flex justify-end mb-32">
+        <div className="w-full md:w-auto md:max-w-md backdrop-blur-md bg-white/40 md:bg-white/10 p-8 rounded-xl border border-white/40 md:border-white/20 shadow-xl md:mr-12 transform transition-all duration-700 hover:scale-105">
+          <span className="text-xs font-bold text-[#2997FF] uppercase tracking-widest mb-2 block">04 — Alçak Gerilim</span>
+          <h3 className="text-2xl md:text-3xl font-light tracking-tight text-[#1D1D1F] mb-4">Dağıtım & Pano</h3>
+          <p className="text-[#1D1D1F] md:text-[#1D1D1F]/70 text-sm leading-relaxed font-medium md:font-normal">
+            Alçak Gerilim Dağıtım Sistemleri, Dağıtım ve Kuvvet Panoları, Jeneratör, UPS ve Bus-Bar sistemleri ile kesintisiz güç altyapısı kuruyoruz.
+          </p>
+        </div>
+      </div>
+
+      {/* Block 5: Zayıf Akım & Otomasyon */}
+      <div className="w-full max-w-7xl px-6 flex justify-start mb-32 md:mb-64">
+        <div className="w-full md:w-auto md:max-w-md backdrop-blur-md bg-white/40 md:bg-white/10 p-8 rounded-xl border border-white/40 md:border-white/20 shadow-xl md:ml-12 transform transition-all duration-700 hover:scale-105">
+          <span className="text-xs font-bold text-[#2997FF] uppercase tracking-widest mb-2 block">05 — Zayıf Akım</span>
+          <h3 className="text-2xl md:text-3xl font-light tracking-tight text-[#1D1D1F] mb-4">Akıllı Sistemler</h3>
+          <p className="text-[#1D1D1F] md:text-[#1D1D1F]/70 text-sm leading-relaxed font-medium md:font-normal">
+            Yangın İhbar, CCTV, Kartlı Geçiş, Data Dağıtım, Bina Otomasyon Sistemleri ve tüm zayıf akım tesisatlarında entegre çözümler sunuyoruz.
+          </p>
+        </div>
+      </div>
+
+      {/* Block 6: Anahtar Teslim */}
+      <div className="w-full max-w-7xl px-6 flex justify-end mb-32">
+        <div className="w-full md:w-auto md:max-w-md backdrop-blur-md bg-white/40 md:bg-white/10 p-8 rounded-xl border border-white/40 md:border-white/20 shadow-xl md:mr-12 transform transition-all duration-700 hover:scale-105">
+          <span className="text-xs font-bold text-[#2997FF] uppercase tracking-widest mb-2 block">06 — Taahhüt</span>
+          <h3 className="text-2xl md:text-3xl font-light tracking-tight text-[#1D1D1F] mb-4">Anahtar Teslim</h3>
+          <p className="text-[#1D1D1F] md:text-[#1D1D1F]/70 text-sm leading-relaxed font-medium md:font-normal">
+            Fizibilite çalışmalarından projenin tamamlanmasına kadar uzanan geniş kapsamlı hizmet. Altyapı, pano ve otomasyon sistemlerini A'dan Z'ye teslim ediyoruz.
           </p>
         </div>
       </div>

@@ -13,12 +13,20 @@ const Hero: React.FC = () => {
 
       {/* Typography Overlay Layer */}
       <div className="relative z-20 flex flex-col items-center justify-center pointer-events-none px-4 text-center">
+        <div className="mb-4 animate-fade-in-up">
+          <span className="text-blue-600 font-mono text-xs md:text-sm tracking-[0.2em] uppercase bg-white/80 backdrop-blur px-4 py-2 rounded-full">
+            2014'ten Beri Güç ve Güvenle
+          </span>
+        </div>
         <h1 className="text-[15vw] md:text-[10vw] leading-[0.9] font-bold text-[#1D1D1F] tracking-[-0.05em] select-none opacity-90 mix-blend-overlay">
           ŞENSOY
         </h1>
         <h1 className="text-[15vw] md:text-[10vw] leading-[0.9] font-bold text-[#1D1D1F] tracking-[-0.05em] select-none opacity-90 mix-blend-overlay">
           ELEKTRİK
         </h1>
+        <p className="mt-8 text-lg md:text-xl text-gray-600 max-w-xl mx-auto font-light tracking-wide bg-white/50 backdrop-blur-sm p-4 rounded-xl">
+          FİRMAMIZA HOŞGELDİNİZ
+        </p>
       </div>
 
       {/* Scroll Indicator */}
