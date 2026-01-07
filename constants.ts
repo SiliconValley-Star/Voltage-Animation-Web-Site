@@ -10,6 +10,7 @@ export const COLORS = {
 
 export const NAV_ITEMS = [
   { label: 'Ana Sayfa', href: '/' },
+  { label: 'Hakkımızda', href: '/about' },
   { label: 'Hizmetlerimiz', href: '/services' },
   { label: 'Projelerimiz', href: '/projects' },
   { label: 'Blog', href: '/blog' },
