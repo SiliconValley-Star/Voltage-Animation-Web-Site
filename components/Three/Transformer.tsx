@@ -1,55 +1,75 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo, useCallback } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { MeshTransmissionMaterial, Float } from '@react-three/drei';
 import * as THREE from 'three';
 import { COLORS } from '../../constants';
+import { useScrollState } from '../Utils/ScrollStore';
 
 const Transformer: React.FC = () => {
   const groupRef = useRef<THREE.Group>(null);
   const coreRef = useRef<THREE.Mesh>(null);
   const sparkRef = useRef<THREE.Mesh>(null);
+  const { scrollY, scrollProgress } = useScrollState();
+  
+  // Cache DOM measurements to avoid repeated queries
+  const viewportHeight = useRef(window.innerHeight);
+  
+  // Memoize color objects to prevent recreation on every frame
+  const colors = useMemo(() => ({
+    base: new THREE.Color(COLORS.plasmaBlue),
+    hot: new THREE.Color(COLORS.pureWhite)
+  }), []);
 
-  useFrame((state) => {
+  // Optimized frame callback with reduced calculations
+  const animate = useCallback((state: any) => {
     const time = state.clock.elapsedTime;
-    // Read scroll directly from DOM as we are outside of R3F ScrollControls
-    const scrollY = window.scrollY;
 
-    // Normalize scroll influence (0 to 1 roughly for the hero section)
-    const scrollInfluence = Math.min(scrollY / window.innerHeight, 1);
+    // Normalize scroll influence (cached viewport height)
+    const scrollInfluence = Math.min(scrollY / viewportHeight.current, 1);
 
     if (groupRef.current) {
-      // Base rotation
-      groupRef.current.rotation.y = time * 0.1 + (scrollInfluence * 2); // Spin faster on scroll
+      // Base rotation - keep the same smooth animation
+      groupRef.current.rotation.y = time * 0.1 + (scrollInfluence * 2);
 
-      // Oscillate on Z axis based on scroll
+      // Oscillate on Z axis based on scroll - keep the same effect
       groupRef.current.rotation.z = Math.sin(time * 0.5) * 0.05 + (scrollInfluence * 0.2 * Math.sin(time * 5));
 
-      // Move slightly up/down based on scroll
+      // Move slightly up/down based on scroll - keep the same movement
       groupRef.current.position.y = scrollInfluence * -0.5;
     }
 
-    // Spark flicker logic tied to scroll energy
+    // Spark flicker logic tied to scroll energy - optimized
     if (sparkRef.current) {
-      // More frantic flickering when scrolling
+      // More frantic flickering when scrolling - keep the same energy effect
       const energyLevel = 0.9 - (scrollInfluence * 0.2);
       const flicker = Math.random() > energyLevel ? 1 : 0;
 
       sparkRef.current.visible = !!flicker;
 
-      // Scale explodes slightly on scroll
+      // Scale explodes slightly on scroll - keep the same scale effect
       const scaleBase = 0.8 + Math.random() * 0.4;
       const scaleBoost = scrollInfluence * 0.5;
       sparkRef.current.scale.setScalar(scaleBase + scaleBoost);
 
-      // Change color towards white/hot when scrolling
+      // Change color towards white/hot when scrolling - optimized with cached colors
       const material = sparkRef.current.material as THREE.MeshBasicMaterial;
       if (material) {
-        const baseColor = new THREE.Color(COLORS.plasmaBlue);
-        const hotColor = new THREE.Color(COLORS.pureWhite);
-        material.color.lerpColors(baseColor, hotColor, scrollInfluence * 0.5);
+        material.color.lerpColors(colors.base, colors.hot, scrollInfluence * 0.5);
       }
     }
-  });
+  }, [scrollY, colors]);
+
+  // Update viewport height on resize (passive listener)
+  React.useEffect(() => {
+    const updateViewportHeight = () => {
+      viewportHeight.current = window.innerHeight;
+    };
+    
+    window.addEventListener('resize', updateViewportHeight, { passive: true });
+    return () => window.removeEventListener('resize', updateViewportHeight);
+  }, []);
+
+  useFrame(animate);
 
   return (
     <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>

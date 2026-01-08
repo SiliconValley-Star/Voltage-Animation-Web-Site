@@ -69,13 +69,18 @@ const IgnitionLoader: React.FC<IgnitionLoaderProps> = ({ onComplete }) => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         onComplete: () => {
-          // Fade out container before unmounting to prevent abrupt cut
+          // 1. Trigger App State change immediately while screen is white
+          // This ensures the background content is rendered/ready behind the loader
+          onComplete();
+
+          // 2. Fade out container slowly to reveal the content
+          // Increased duration for softer transition
           gsap.to(containerRef.current, {
             opacity: 0,
-            duration: 0.5,
+            duration: 1.5,
+            ease: "power2.inOut",
             onComplete: () => {
               setActive(false);
-              onComplete();
             }
           });
         }

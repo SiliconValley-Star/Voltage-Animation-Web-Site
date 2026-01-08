@@ -99,16 +99,16 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="bg-[#050505]/90 text-white border-t border-white/10 relative z-20 overflow-hidden font-sans backdrop-blur-sm">
+    <footer role="contentinfo" className="bg-[#050505]/90 text-white border-t border-white/10 relative z-20 overflow-hidden font-sans backdrop-blur-sm">
 
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
       {/* Massive Background Text */}
       <div className="absolute bottom-0 left-0 w-full overflow-hidden pointer-events-none opacity-[0.02]">
-        <h1 className="text-[18vw] font-bold leading-none tracking-tighter text-white whitespace-nowrap translate-y-[20%] select-none">
+        <div className="text-[18vw] font-bold leading-none tracking-tighter text-white whitespace-nowrap translate-y-[20%] select-none" aria-hidden="true">
           ŞENSOY ELEKTRİK
-        </h1>
+        </div>
       </div>
 
       <div className="max-w-[1920px] mx-auto relative z-10">

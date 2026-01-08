@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Şensoy Elektrik - Profesyonel elektrik çözümleri ve enerji sistemleri" />
     <title>Şensoy Elektrik | Güvenilir Enerji Çözümleri</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#2997FF" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="Şensoy Elektrik" />
+    <meta name="apple-mobile-web-app-title" content="Şensoy Elektrik" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
+    <link rel="apple-touch-icon" href="/icon-192x192.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,10 +66,32 @@
   }
 }
 </script>
+
+<!-- Import Maps Fallback for Legacy Browsers -->
+<script nomodule>
+  console.warn('Bu tarayıcı ES6 modüllerini desteklemiyor. Lütfen tarayıcınızı güncelleyin.');
+  document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#000;color:#fff;text-align:center;font-family:Arial,sans-serif;"><div><h2>Tarayıcı Güncellemesi Gerekli</h2><p>Bu web sitesi modern tarayıcı özelliklerini kullanır.<br>Lütfen Chrome 89+, Firefox 88+ veya Safari 14.1+ kullanın.</p></div></div>';
+</script>
+
 <link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
+  
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+  </script>
 </body>
 </html>

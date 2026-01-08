@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SERVICES_DATA, ServiceItem } from './servicesData';
+import SEOHead from '../Utils/SEOHead';
+import BreadcrumbNav from '../UI/BreadcrumbNav';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -86,30 +88,59 @@ const ServicesPage: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
 
+    // Initial page load animations (run once)
     useEffect(() => {
-        ScrollTrigger.refresh();
         const ctx = gsap.context(() => {
-            gsap.from(".hero-line", {
+            const chars = containerRef.current?.querySelectorAll('.char');
+            if (chars && chars.length > 0) {
+                gsap.from(chars, {
+                    yPercent: 120,
+                    stagger: 0.05,
+                    duration: 1.2,
+                    ease: "power4.out",
+                    delay: 0.2
+                });
+            }
+
+            gsap.from(".hero-line-anim", {
                 y: 100,
                 opacity: 0,
                 stagger: 0.1,
                 duration: 1.2,
                 ease: "power4.out",
-                delay: 0.2
+                delay: 0.6
             });
+        }, containerRef);
+        
+        return () => ctx.revert();
+    }, []); // Only run once on mount
 
-            gsap.utils.toArray<HTMLElement>(".service-row").forEach((row) => {
-                gsap.from(row, {
-                    scrollTrigger: { trigger: row, start: "top 90%" },
+    // Service rows scroll animations (optimized with batch)
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            // Use ScrollTrigger.batch for better performance
+            ScrollTrigger.batch(".service-row", {
+                start: "top 90%",
+                onEnter: (batch) => gsap.from(batch, {
                     y: 30,
                     opacity: 0,
                     duration: 0.8,
-                    ease: "power3.out"
-                });
+                    ease: "power3.out",
+                    stagger: 0.1,
+                    overwrite: true
+                }),
+                once: true // Only animate once for performance
             });
         }, containerRef);
+        
         return () => ctx.revert();
-    }, []);
+    }, []); // Only set up once
+
+    const splitText = (text: string) => {
+        return text.split('').map((char, i) => (
+            <span key={i} className="char inline-block">{char === ' ' ? '\u00A0' : char}</span>
+        ));
+    };
 
     const group1 = SERVICES_DATA.slice(0, 3); // Güç Sistemleri
     const group2 = SERVICES_DATA.slice(3, 6); // Altyapı (Dark)
@@ -120,25 +151,47 @@ const ServicesPage: React.FC = () => {
     };
 
     return (
-        <div ref={containerRef} className="w-full bg-transparent min-h-screen pt-24 overflow-x-hidden relative">
+        <>
+            <SEOHead
+                title="Hizmetlerimiz | Elektrik Taahhüt Çözümleri - Şensoy Elektrik"
+                description="Trafo merkezi, alçak gerilim, zayıf akım ve otomasyon sistemleri. YG, OG, AG elektrik taahhüt hizmetleri. Anahtar teslim elektrik çözümleri."
+                keywords="elektrik hizmetleri, trafo merkezi, alçak gerilim, zayıf akım, bms, yangın algılama, otomasyon sistemleri, elektrik taahhüt"
+                currentPath="/services"
+                type="website"
+                breadcrumbs={[
+                    { name: 'Ana Sayfa', url: '/' },
+                    { name: 'Hizmetlerimiz', url: '/services' }
+                ]}
+            />
+            <main id="main-content" ref={containerRef} className="w-full bg-transparent min-h-screen pt-24 overflow-x-hidden relative" role="main">
+                
+                {/* Breadcrumb Navigation */}
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <BreadcrumbNav
+                        items={[
+                            { name: 'Ana Sayfa', url: '/' },
+                            { name: 'Hizmetlerimiz', url: '/services' }
+                        ]}
+                    />
+                </div>
 
-            {/* HERO */}
-            <section className="px-4 sm:px-6 mb-16 sm:mb-24 max-w-7xl mx-auto min-h-[30vh] sm:min-h-[40vh] flex flex-col justify-end pb-8 sm:pb-12 bg-transparent rounded-b-2xl">
-                <div className="overflow-hidden">
-                    <h1 className="hero-line text-[12vw] sm:text-[10vw] md:text-[8vw] leading-[0.9] font-bold tracking-tighter text-[#1D1D1F]">
-                        HİZMETLER
-                    </h1>
-                </div>
-                <div className="overflow-hidden">
-                    <h1 className="hero-line text-[12vw] sm:text-[10vw] md:text-[8vw] leading-[0.9] font-bold tracking-tighter text-[#1D1D1F] opacity-50">
-                        KATALOG_
-                    </h1>
-                </div>
+                {/* HERO */}
+                <section className="px-4 sm:px-6 mb-16 sm:mb-24 max-w-7xl mx-auto min-h-[30vh] sm:min-h-[40vh] flex flex-col justify-end pb-8 sm:pb-12 bg-transparent rounded-b-2xl">
+                    <div className="overflow-hidden">
+                        <h1 id="services-section" className="text-[12vw] sm:text-[10vw] md:text-[8vw] leading-[0.9] font-bold tracking-tighter text-[#1D1D1F] overflow-hidden">
+                            {splitText("HİZMETLER")}
+                        </h1>
+                    </div>
+                    <div className="overflow-hidden">
+                        <h2 className="text-[12vw] sm:text-[10vw] md:text-[8vw] leading-[0.9] font-bold tracking-tighter text-[#1D1D1F] opacity-50 overflow-hidden">
+                            {splitText("KATALOG_")}
+                        </h2>
+                    </div>
                 <div className="mt-6 sm:mt-8 border-t border-black/20 w-full pt-4 flex flex-col sm:flex-row justify-between items-start gap-4">
-                    <p className="max-w-md text-sm sm:text-base md:text-lg text-gray-500 leading-relaxed hero-line">
+                    <p className="max-w-md text-sm sm:text-base md:text-lg text-gray-500 leading-relaxed hero-line-anim">
                         Temel topraklama tesisatından itibaren elektrik mühendisliği kapsamındaki tüm tesisatların saha uygulamaları. Kuvvetli akım, zayıf akım ve otomasyon sistemleri.
                     </p>
-                    <div className="text-left sm:text-right hero-line">
+                    <div className="text-left sm:text-right hero-line-anim">
                         <div className="font-mono text-[10px] sm:text-xs text-gray-400">HİZMET SAYISI</div>
                         <div className="text-2xl sm:text-3xl font-light text-[#1D1D1F]">10</div>
                     </div>
@@ -226,7 +279,8 @@ const ServicesPage: React.FC = () => {
                 </div>
             </section>
 
-        </div>
+        </main>
+        </>
     );
 };
 

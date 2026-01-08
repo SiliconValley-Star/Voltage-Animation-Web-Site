@@ -8,7 +8,7 @@ import { AppState } from '../../types';
 
 import Scene from '../Three/Scene';
 import ScrollManager from '../Utils/ScrollManager';
-import NeuralChat from '../UI/NeuralChat';
+import WhatsAppButton from '../UI/WhatsAppButton';
 
 const Layout: React.FC = () => {
     const [appState, setAppState] = useState<AppState>(AppState.IGNITION);
@@ -41,9 +41,9 @@ const Layout: React.FC = () => {
         }
     }, [appState]);
 
-    const handleIgnitionComplete = () => {
+    const handleIgnitionComplete = React.useCallback(() => {
         setAppState(AppState.RUNNING);
-    };
+    }, []);
 
     return (
         <ReactLenis
@@ -60,10 +60,10 @@ const Layout: React.FC = () => {
 
             {/* Global HUD Widgets - Only visible when app is running */}
             {appState === AppState.RUNNING && (
-                <NeuralChat />
+                <WhatsAppButton />
             )}
 
-            <div className="min-h-screen bg-[#F5F5F7] text-[#1D1D1F] relative w-full overflow-x-hidden flex flex-col justify-between">
+            <div className={`min-h-screen relative w-full overflow-x-hidden flex flex-col justify-between ${appState === AppState.IGNITION ? 'bg-black' : 'bg-[#F5F5F7] text-[#1D1D1F]'}`}>
 
                 {/* Global 3D Background - Always visible everywhere */}
                 <div className={`fixed inset-0 z-0 pointer-events-none transition-all duration-1000 ${isHomePage ? 'opacity-100 blur-none' : 'opacity-50 blur-[3px]'}`}>

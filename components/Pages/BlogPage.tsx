@@ -116,32 +116,13 @@ const BlogPage: React.FC = () => {
     const [activeCategory, setActiveCategory] = useState('TÜMÜ');
     const [searchQuery, setSearchQuery] = useState('');
 
-    useEffect(() => {
-        ScrollTrigger.refresh();
-        const ctx = gsap.context(() => {
-            gsap.from(".hero-anim", {
-                y: 50,
-                opacity: 0,
-                stagger: 0.1,
-                duration: 1,
-                ease: "power3.out"
-            });
+    const splitText = (text: string) => {
+        return text.split('').map((char, i) => (
+            <span key={i} className="char inline-block">{char === ' ' ? '\u00A0' : char}</span>
+        ));
+    };
 
-            gsap.from(".article-row", {
-                scrollTrigger: {
-                    trigger: ".article-list",
-                    start: "top 90%",
-                },
-                y: 30,
-                opacity: 0,
-                stagger: 0.1,
-                duration: 0.8,
-                ease: "power2.out"
-            });
-        }, containerRef);
-        return () => ctx.revert();
-    }, [activeCategory]);
-
+    // Calculate filtered data before effects
     const filteredArticles = ARTICLES.filter(article => {
         const matchesCategory = activeCategory === 'TÜMÜ' || article.category === activeCategory;
         const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -150,6 +131,53 @@ const BlogPage: React.FC = () => {
     });
 
     const featuredArticle = ARTICLES.find(a => a.featured);
+
+    // Separate effect for initial animations (only run once)
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            const chars = containerRef.current?.querySelectorAll('.char');
+            if (chars && chars.length > 0) {
+                gsap.from(chars, {
+                    yPercent: 120,
+                    stagger: 0.05,
+                    duration: 1.2,
+                    ease: "power4.out",
+                    delay: 0.2
+                });
+            }
+            gsap.from(".hero-anim", {
+                y: 50,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 1,
+                ease: "power3.out",
+                delay: 0.5
+            });
+        }, containerRef);
+        
+        return () => ctx.revert();
+    }, []); // Only run once on mount
+
+    // Separate effect for article list animations (when content changes)
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            // Use ScrollTrigger.batch for better performance
+            ScrollTrigger.batch(".article-row", {
+                start: "top 90%",
+                onEnter: (batch) => gsap.from(batch, {
+                    y: 30,
+                    opacity: 0,
+                    stagger: 0.1,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    overwrite: true
+                }),
+                once: true // Only animate once for better performance
+            });
+        }, containerRef);
+        
+        return () => ctx.revert();
+    }, [activeCategory, filteredArticles.length]); // Only when content actually changes
 
     return (
         <div ref={containerRef} className="w-full min-h-screen pt-24 sm:pt-32 bg-transparent overflow-x-hidden relative">
@@ -160,8 +188,8 @@ const BlogPage: React.FC = () => {
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-16 hero-anim border-b border-black/10 pb-6 sm:pb-8 bg-transparent p-4 sm:p-6 md:p-8">
                     <div>
                         <span className="font-mono text-[10px] sm:text-xs text-[#2997FF] tracking-widest mb-2 sm:mb-4 block">/// BLOG & HABERLER</span>
-                        <h1 className="text-[12vw] sm:text-[10vw] md:text-[6vw] leading-[0.9] font-bold tracking-tighter text-[#1D1D1F]">
-                            GÜNCEL
+                        <h1 className="text-[12vw] sm:text-[10vw] md:text-[6vw] leading-[0.9] font-bold tracking-tighter text-[#1D1D1F] overflow-hidden">
+                            {splitText("GÜNCEL")}
                         </h1>
                     </div>
 

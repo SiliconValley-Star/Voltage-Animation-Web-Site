@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useCallback } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { COLORS } from '../../constants';
@@ -40,9 +40,12 @@ const cableFragmentShader = `
 
 const CableSystem: React.FC = () => {
   const meshRef = useRef<THREE.Mesh>(null);
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
 
   const { viewport } = useThree();
-  const isMobile = viewport.width < 5;
+  
+  // Memoize mobile check to prevent recalculation on every render
+  const isMobile = useMemo(() => viewport.width < 5, [viewport.width]);
 
   // Create a curve that simulates the cable dropping down to footer
   const curve = useMemo(() => {
@@ -55,9 +58,8 @@ const CableSystem: React.FC = () => {
     ];
 
     // Procedurally generate twists down to Y = -2000
-    // Experimentally deeper to ensure it covers even the longest pages
-    const depth = 4000;
-    const step = 25;
+    // Reduced depth and segments for better performance while maintaining visual quality
+    const depth = 2500; // Reduced from 4000
     let currentY = -5;
 
     while (currentY > -depth) {
@@ -80,27 +82,48 @@ const CableSystem: React.FC = () => {
     );
   }, [isMobile]);
 
+  // Memoized values for performance
+  const tubularSegments = useMemo(() => isMobile ? 256 : 512, [isMobile]);
+  const radius = useMemo(() => isMobile ? 0.08 : 0.12, [isMobile]);
+  const radialSegments = useMemo(() => isMobile ? 3 : 4, [isMobile]);
+
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },
     uColor: { value: new THREE.Color('#111111') },
     uPulseColor: { value: new THREE.Color(COLORS.plasmaBlue) }
   }), []);
 
-  useFrame((state) => {
-    if (meshRef.current) {
-      // @ts-ignore
-      meshRef.current.material.uniforms.uTime.value = state.clock.elapsedTime;
+  // Optimized frame callback with ref safety
+  const updateTime = useCallback((state: any) => {
+    if (materialRef.current?.uniforms) {
+      materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
     }
-  });
+  }, []);
+
+  useFrame(updateTime);
 
   return (
-    <mesh ref={meshRef} position={[0, 0, 0]} frustumCulled={false}>
-      <tubeGeometry args={[curve, 2048, isMobile ? 0.08 : 0.12, 6, false]} />
+    <mesh
+      ref={meshRef}
+      position={[0, 0, 0]}
+      // CRITICAL: Enable frustum culling for performance!
+      // Only disable in specific view sections where cable must be visible
+      frustumCulled={true}
+      // Performance optimization: inform Three.js this is a static object
+      matrixAutoUpdate={false}
+    >
+      <tubeGeometry
+        args={[curve, tubularSegments, radius, radialSegments, false]}
+      />
       <shaderMaterial
+        ref={materialRef}
         vertexShader={cableVertexShader}
         fragmentShader={cableFragmentShader}
         uniforms={uniforms}
         transparent
+        // Performance optimizations for shader material
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
       />
     </mesh>
   );

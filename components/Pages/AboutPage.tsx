@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ContactCTA from '../Sections/ContactCTA';
+import SEOHead from '../Utils/SEOHead';
 
 // Register Plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -182,7 +183,15 @@ const AboutPage: React.FC = () => {
     ];
 
     return (
-        <div ref={containerRef} className="w-full bg-transparent min-h-screen pt-24 overflow-x-hidden">
+        <>
+            <SEOHead
+                title="Hakkımızda | Kurumsal Bilgiler - Şensoy Elektrik"
+                description="2014'ten beri elektrik taahhüt ve mühendislik. YG, OG, AG ve ZA sistemlerinde 10+ yıl deneyim. Sertifikalı uzman ekip, kaliteli hizmet."
+                keywords="hakkımızda, şensoy elektrik, kurumsal bilgi, elektrik taahhüt deneyim, sertifikalı ekip, kalite belgesi, mühendislik"
+                url="https://www.sensoyelektrik.com/about"
+                type="website"
+            />
+            <main id="main-content" ref={containerRef} className="w-full bg-transparent min-h-screen pt-24 overflow-x-hidden" role="main">
 
             {/* --- HERO SECTION --- */}
             <section className="px-4 sm:px-6 mb-16 sm:mb-24 md:mb-32 max-w-[1920px] mx-auto min-h-[50vh] sm:min-h-[60vh] md:min-h-[70vh] flex flex-col justify-between bg-transparent py-8 sm:py-12 mt-8 sm:mt-12">
@@ -363,7 +372,8 @@ const AboutPage: React.FC = () => {
             {/* --- İLETİŞİM CTA (Standardized) --- */}
             <ContactCTA />
 
-        </div>
+        </main>
+        </>
     );
 };
 

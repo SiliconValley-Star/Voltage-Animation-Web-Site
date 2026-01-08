@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLenis } from '@studio-freight/react-lenis';
+import gsap from 'gsap';
 
 const Hero: React.FC = () => {
   const lenis = useLenis();
@@ -8,8 +9,32 @@ const Hero: React.FC = () => {
     lenis?.scrollTo('#transmission', { offset: -100 });
   };
 
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const ctx = gsap.context(() => {
+      const chars = containerRef.current?.querySelectorAll('.char');
+      if (chars) {
+        gsap.from(chars, {
+          yPercent: 120,
+          stagger: 0.05,
+          duration: 1.2,
+          ease: "power4.out",
+          delay: 0.2
+        });
+      }
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
+
+  const splitText = (text: string) => {
+    return text.split('').map((char, i) => (
+      <span key={i} className="char inline-block">{char === ' ' ? '\u00A0' : char}</span>
+    ));
+  };
+
   return (
-    <section className="relative w-full h-screen overflow-hidden flex items-center justify-center">
+    <section ref={containerRef} className="relative w-full h-screen overflow-hidden flex items-center justify-center">
 
       {/* Typography Overlay Layer */}
       <div className="relative z-20 flex flex-col items-center justify-center pointer-events-none px-4 text-center">
@@ -18,11 +43,13 @@ const Hero: React.FC = () => {
             2014'ten Beri Güç ve Güvenle
           </span>
         </div>
-        <h1 className="text-[15vw] md:text-[10vw] leading-[0.9] font-bold text-[#1D1D1F] tracking-[-0.05em] select-none opacity-90 mix-blend-overlay">
-          ŞENSOY
-        </h1>
-        <h1 className="text-[15vw] md:text-[10vw] leading-[0.9] font-bold text-[#1D1D1F] tracking-[-0.05em] select-none opacity-90 mix-blend-overlay">
-          ELEKTRİK
+        <h1 id="hero-section" className="text-[15vw] md:text-[10vw] leading-[0.9] font-bold text-[#1D1D1F] tracking-[-0.05em] select-none opacity-90 mix-blend-overlay overflow-hidden">
+          <div className="overflow-hidden">
+            {splitText("ŞENSOY")}
+          </div>
+          <div className="overflow-hidden">
+            {splitText("ELEKTRİK")}
+          </div>
         </h1>
         <p className="mt-8 text-lg md:text-xl text-gray-600 max-w-xl mx-auto font-light tracking-wide bg-white/50 backdrop-blur-sm p-4 rounded-xl">
           FİRMAMIZA HOŞGELDİNİZ

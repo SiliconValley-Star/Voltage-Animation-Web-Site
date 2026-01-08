@@ -134,11 +134,43 @@ const ProjectsPage: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const projects = useProjects();
 
+    const splitText = (text: string) => {
+        return text.split('').map((char, i) => (
+            <span key={i} className="char inline-block">{char === ' ' ? '\u00A0' : char}</span>
+        ));
+    };
+
+    // Initial page load animations (run once)
     useEffect(() => {
         const ctx = gsap.context(() => {
-            gsap.from(".hero-text", { y: 100, opacity: 0, stagger: 0.1, duration: 1.2, ease: "power4.out", delay: 0.2 });
+            const chars = containerRef.current?.querySelectorAll('.char');
+            if (chars && chars.length > 0) {
+                gsap.from(chars, {
+                    yPercent: 120,
+                    stagger: 0.05,
+                    duration: 1.2,
+                    ease: "power4.out",
+                    delay: 0.2
+                });
+            }
+            
+            gsap.from(".hero-text", {
+                y: 100,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 1.2,
+                ease: "power4.out",
+                delay: 0.6
+            });
+        }, containerRef);
 
-            // Batch similar animations for performance
+        return () => ctx.revert();
+    }, []); // Only run once on mount
+
+    // Project cards scroll animations (optimized)
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            // Batch similar animations for better performance
             ScrollTrigger.batch(".project-card-anim", {
                 start: "top 90%",
                 onEnter: batch => gsap.from(batch, {
@@ -154,7 +186,7 @@ const ProjectsPage: React.FC = () => {
         }, containerRef);
 
         return () => ctx.revert();
-    }, []);
+    }, []); // Only set up once
 
     // Filter Data
     const featuredProject = projects.find(p => p.featured) || projects[0];
@@ -166,8 +198,8 @@ const ProjectsPage: React.FC = () => {
             {/* 1. PAGE TITLE */}
             <section className="px-6 mb-12 md:mb-20 max-w-7xl mx-auto min-h-[30vh] md:min-h-[40vh] flex flex-col justify-end pb-8 border-b border-black/10">
                 <span className="hero-text font-mono text-xs text-[#2997FF] tracking-widest mb-4 block">KÜRESEL GİRİŞİMLER // İNDEKS</span>
-                <h1 className="hero-text text-[12vw] md:text-[8vw] leading-[0.9] font-bold tracking-tighter text-[#1D1D1F]">
-                    PORTFÖY
+                <h1 className="text-[12vw] md:text-[8vw] leading-[0.9] font-bold tracking-tighter text-[#1D1D1F] overflow-hidden">
+                    {splitText("PORTFÖY")}
                 </h1>
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mt-8 md:mt-4 gap-4">
                     <p className="hero-text max-w-sm text-sm text-gray-500 leading-relaxed">

@@ -3,6 +3,7 @@ import { NavLink, useLocation, useNavigate, Link } from 'react-router-dom';
 import { useLenis } from '@studio-freight/react-lenis';
 import { PROJECTS } from '../Pages/projectsData';
 import { ARTICLES } from '../Pages/articlesData';
+import { useScrollState } from '../Utils/ScrollStore';
 
 const NAV_ITEMS = [
   { label: 'ANA SAYFA', href: '/' },
@@ -30,14 +31,12 @@ const Header: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Scroll Effect
+  // Scroll Effect - Optimized
+  const { scrollY } = useScrollState();
+  
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    setScrolled(scrollY > 50);
+  }, [scrollY]);
 
   // Lock body scroll
   useEffect(() => {
@@ -79,7 +78,7 @@ const Header: React.FC = () => {
           <div className="max-w-[1920px] mx-auto px-12 py-12 grid grid-cols-12 gap-12 h-full animate-in fade-in duration-300">
             <div className="col-span-3 border-r border-black/10 pr-8">
               <span className="text-[#2997FF] font-mono text-xs mb-4 block">UZMANLIK ALANLARI</span>
-              <h3 className="text-3xl font-medium tracking-tight mb-4 text-black">Endüstriyel<br />Çözümler</h3>
+              <div className="text-3xl font-medium tracking-tight mb-4 text-black">Endüstriyel<br />Çözümler</div>
               <p className="text-sm text-gray-500 leading-relaxed">
                 Fabrika, üretim tesisi ve enerji santralleri için anahtar teslim elektrik taahhüt ve mühendislik hizmetleri.
               </p>
@@ -117,7 +116,7 @@ const Header: React.FC = () => {
           <div className="max-w-[1920px] mx-auto px-12 py-12 grid grid-cols-12 gap-12 h-full animate-in fade-in duration-300">
             <div className="col-span-3 border-r border-black/10 pr-8">
               <span className="text-[#2997FF] font-mono text-xs mb-4 block">PORTFOLYO</span>
-              <h3 className="text-3xl font-medium tracking-tight mb-4 text-black">Seçkin<br />Projelerimiz</h3>
+              <div className="text-3xl font-medium tracking-tight mb-4 text-black">Seçkin<br />Projelerimiz</div>
               <p className="text-sm text-gray-500 leading-relaxed">
                 Türkiye'nin önde gelen sanayi kuruluşları ve enerji tesisleri için geliştirdiğimiz mühendislik çözümleri.
               </p>
@@ -136,7 +135,7 @@ const Header: React.FC = () => {
                     <span className="text-[10px] font-bold uppercase tracking-widest text-[#2997FF]">{project.location.split(',')[0]}</span>
                     <span className="text-[10px] text-gray-400">{project.year}</span>
                   </div>
-                  <h4 className="text-xs font-bold uppercase tracking-widest text-gray-900 group-hover:text-black transition-colors line-clamp-1">{project.title}</h4>
+                  <span className="text-xs font-bold uppercase tracking-widest text-gray-900 group-hover:text-black transition-colors line-clamp-1 block">{project.title}</span>
                 </Link>
               ))}
             </div>
@@ -149,7 +148,7 @@ const Header: React.FC = () => {
           <div className="max-w-[1920px] mx-auto px-12 py-12 grid grid-cols-12 gap-12 h-full animate-in fade-in duration-300">
             <div className="col-span-3 border-r border-black/10 pr-8">
               <span className="text-[#2997FF] font-mono text-xs mb-4 block">BİLGİ MERKEZİ</span>
-              <h3 className="text-3xl font-medium tracking-tight mb-4 text-black">Güncel<br />İçerikler</h3>
+              <div className="text-3xl font-medium tracking-tight mb-4 text-black">Güncel<br />İçerikler</div>
               <p className="text-sm text-gray-500 leading-relaxed">
                 Enerji sektörü trendleri, teknik makaleler ve şirketimizden en son haberleri buradan takip edebilirsiniz.
               </p>
@@ -165,7 +164,7 @@ const Header: React.FC = () => {
                     <img src={article.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter grayscale group-hover:grayscale-0" alt={article.title} />
                   </div>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-[#2997FF] block mb-2">{article.category}</span>
-                  <h4 className="text-xs font-bold uppercase tracking-widest text-gray-900 group-hover:text-black transition-colors line-clamp-2 leading-relaxed">{article.title}</h4>
+                  <span className="text-xs font-bold uppercase tracking-widest text-gray-900 group-hover:text-black transition-colors line-clamp-2 leading-relaxed block">{article.title}</span>
                 </Link>
               ))}
             </div>
@@ -179,7 +178,22 @@ const Header: React.FC = () => {
 
   return (
     <>
+      {/* Skip to Content Link - Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[1000] focus:bg-black focus:text-white focus:px-4 focus:py-2 focus:rounded focus:text-sm focus:font-medium"
+        onFocus={() => {
+          // Auto-scroll to main content on focus for better UX
+          setTimeout(() => {
+            document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        }}
+      >
+        Ana İçeriğe Atla
+      </a>
+      
       <header
+        role="banner"
         className={`fixed top-0 left-0 w-full h-[80px] z-[900] transition-all duration-500 ${scrolled || isMobileMenuOpen ? 'bg-white/80 backdrop-blur-xl border-b border-black/5' : 'bg-transparent border-b border-transparent'
           }`}
       >
@@ -205,7 +219,7 @@ const Header: React.FC = () => {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="h-full hidden md:flex items-center gap-10">
+          <nav role="navigation" aria-label="Ana navigasyon" className="h-full hidden md:flex items-center gap-10">
             {NAV_ITEMS.map((item) => (
               <div
                 key={item.label}
@@ -265,7 +279,7 @@ const Header: React.FC = () => {
         {/* Decorative Grid */}
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-        <nav className="flex flex-col gap-6 relative z-10 pl-4 border-l border-white/10">
+        <nav role="navigation" aria-label="Mobil menü" className="flex flex-col gap-6 relative z-10 pl-4 border-l border-white/10">
 
           {NAV_ITEMS.map((item, i) => (
             <Link

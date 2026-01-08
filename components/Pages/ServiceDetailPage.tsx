@@ -76,8 +76,20 @@ const ServiceDetailPage: React.FC = () => {
             </button>
 
             {/* HERO SECTION */}
-            <section className="px-6 md:px-12 lg:px-24 mb-20 max-w-8xl mx-auto">
-                <div className="border-l-2 border-[#2997FF] pl-6 md:pl-10 mb-10 hero-text">
+            <section className="relative px-6 md:px-12 lg:px-24 mb-20 max-w-8xl mx-auto min-h-[60vh] flex flex-col justify-center">
+
+                {/* Hero Background Image */}
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                    <img
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full h-full object-cover opacity-30"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-[#050505]/80 to-[#050505]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent"></div>
+                </div>
+
+                <div className="relative z-10 border-l-2 border-[#2997FF] pl-6 md:pl-10 mb-10 hero-text mt-20">
                     <span className="text-[#2997FF] font-mono text-sm tracking-widest uppercase mb-4 block">
                         {service.category} — {service.id}
                     </span>
@@ -86,16 +98,16 @@ const ServiceDetailPage: React.FC = () => {
                     </h1>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mt-16">
+                <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-12 mt-8">
                     <div className="md:col-span-8">
-                        <p className="hero-text text-lg md:text-xl lg:text-2xl text-gray-300 font-light leading-relaxed whitespace-pre-line">
+                        <p className="hero-text text-lg md:text-xl lg:text-2xl text-gray-300 font-light leading-relaxed whitespace-pre-line drop-shadow-lg">
                             {service.full_details}
                         </p>
                     </div>
 
                     {/* HIZLI ÖZET KUTUSU */}
                     <div className="md:col-span-4 hero-text">
-                        <div className="bg-[#111] border border-white/10 p-8 rounded-xl">
+                        <div className="bg-[#111]/80 backdrop-blur-md border border-white/10 p-8 rounded-xl shadow-2xl">
                             <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-6 border-b border-white/10 pb-4">
                                 Proje Özeti
                             </h3>

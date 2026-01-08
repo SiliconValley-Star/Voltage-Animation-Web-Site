@@ -11,7 +11,7 @@ export interface ServiceItem {
     scope: string;
     deployment_time: string;
     capacity_level: string;
-    image?: string;
+    image: string;
 }
 
 export const SERVICES_DATA: ServiceItem[] = [
@@ -37,7 +37,7 @@ export const SERVICES_DATA: ServiceItem[] = [
         scope: "Anahtar Teslim",
         deployment_time: "3-6 Ay",
         capacity_level: "Endüstriyel",
-        image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=2070" // High voltage lines / industrial
+        image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
     },
     {
         id: "AG-02",
@@ -60,7 +60,7 @@ export const SERVICES_DATA: ServiceItem[] = [
         scope: "Tam Kurulum",
         deployment_time: "2-4 Ay",
         capacity_level: "Tüm Ölçekler",
-        image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=2070" // Electrical panel / industrial
+        image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" // Electrical Panel / Circuit Breakers
     },
     {
         id: "JEN-03",
@@ -83,7 +83,7 @@ export const SERVICES_DATA: ServiceItem[] = [
         scope: "Anahtar Teslim",
         deployment_time: "1-3 Ay",
         capacity_level: "Kurumsal",
-        image: "https://images.unsplash.com/photo-1590423696200-a681335956f4?q=80&w=2072" // Generator engine detail
+        image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" // Reliable industrial coil/generator
     },
     // GRUP 2: ALTYAPI
     {
@@ -107,7 +107,7 @@ export const SERVICES_DATA: ServiceItem[] = [
         scope: "Tam Kurulum",
         deployment_time: "2-4 Hafta",
         capacity_level: "Tüm Ölçekler",
-        image: "https://images.unsplash.com/photo-1454591499990-b2cb5d2bb34d?q=80&w=2070" // Construction / foundation
+        image: "https://images.unsplash.com/photo-1590247813693-5541d1c609fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2009&q=80"
     },
     {
         id: "KBL-05",
@@ -130,7 +130,7 @@ export const SERVICES_DATA: ServiceItem[] = [
         scope: "Tam Kurulum",
         deployment_time: "1-2 Ay",
         capacity_level: "Tüm Ölçekler",
-        image: "https://images.unsplash.com/photo-1555673628-9717df3d2358?q=80&w=2070" // Lighting / cables conduit
+        image: "https://images.unsplash.com/photo-1597423244036-ef5020e83f3c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
     },
     // GRUP 3: OTOMASYON & ZAYIF AKIM
     {
@@ -154,7 +154,7 @@ export const SERVICES_DATA: ServiceItem[] = [
         scope: "Yazılım + Donanım",
         deployment_time: "2-4 Ay",
         capacity_level: "Kurumsal",
-        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070" // Technology / Chip / Circuit
+        image: "https://images.unsplash.com/photo-1580983218765-f663bec07b37?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
     },
     {
         id: "ZAY-07",
@@ -178,7 +178,7 @@ export const SERVICES_DATA: ServiceItem[] = [
         scope: "Entegre Sistem",
         deployment_time: "1-2 Ay",
         capacity_level: "Tüm Ölçekler",
-        image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=2074" // Security Camera
+        image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
     },
     {
         id: "ILT-08",
@@ -201,7 +201,7 @@ export const SERVICES_DATA: ServiceItem[] = [
         scope: "Tam Entegrasyon",
         deployment_time: "1-2 Ay",
         capacity_level: "Tüm Ölçekler",
-        image: "https://images.unsplash.com/photo-1558494949-ef526b0042a0?q=80&w=2074" // Update Server Room
+        image: "https://images.unsplash.com/photo-1601597111158-2fceff292cdc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
     },
     {
         id: "AV-09",
@@ -226,7 +226,7 @@ export const SERVICES_DATA: ServiceItem[] = [
         scope: "Profesyonel Kurulum",
         deployment_time: "1-2 Ay",
         capacity_level: "Ticari",
-        image: "https://images.unsplash.com/photo-1516280440614-6697288d5d38?q=80&w=2070" // Concert / Event / AV
+        image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" // Event/Stage/Lights
     },
     {
         id: "OZL-10",
@@ -249,6 +249,6 @@ export const SERVICES_DATA: ServiceItem[] = [
         scope: "Özel Tasarım",
         deployment_time: "1-2 Ay",
         capacity_level: "Sektörel",
-        image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053" // Hospital / Clean tech
+        image: "https://images.unsplash.com/photo-1516549655169-df83a092fc9b?q=80&w=2070" // Medical / Nurse equipment
     }
 ];

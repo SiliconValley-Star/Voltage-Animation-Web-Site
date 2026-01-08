@@ -9,58 +9,38 @@ const ServiceCard: React.FC<{ service: ServiceItem }> = ({ service }) => {
   const [hover, setHover] = useState(false);
   const navigate = useNavigate();
 
-  // Dynamic glow color based on category
-  const getGlowColor = () => {
-    if (service.category === 'Güç Sistemleri') return 'rgba(255, 200, 100, 0.4)';
-    if (service.category === 'Altyapı') return 'rgba(100, 255, 150, 0.4)';
-    return 'rgba(200, 200, 255, 0.4)';
-  };
-
-  const getGradient = () => {
-    if (service.category === 'Güç Sistemleri') return 'radial-gradient(circle, #FFD1A9 0%, transparent 70%)';
-    if (service.category === 'Altyapı') return 'radial-gradient(circle, #A9FFD1 0%, transparent 70%)';
-    return 'radial-gradient(circle, #A9D1FF 0%, transparent 70%)';
-  };
-
-  const glowColor = getGlowColor();
-
   return (
     <div
       onClick={() => navigate(`/services/${service.slug}`)}
-      className="relative h-[60vh] border border-gray-200 bg-white/60 rounded-none p-8 flex flex-col justify-end transition-all duration-700 ease-out overflow-hidden group cursor-pointer"
+      className="relative h-[50vh] md:h-[45vh] border border-gray-200 bg-black rounded-none p-6 md:p-8 flex flex-col justify-end transition-all duration-700 ease-out overflow-hidden group cursor-pointer"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      style={{
-        boxShadow: hover ? `0 20px 80px -10px ${glowColor}` : 'none'
-      }}
     >
-      {/* Bulb visual simulation */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className={`w-32 h-32 rounded-full transition-all duration-100 ${hover ? 'opacity-100 scale-110' : 'opacity-20 scale-100 grayscale'}`}
-          style={{
-            background: getGradient(),
-            filter: hover ? 'blur(10px)' : 'blur(2px)'
-          }}
-        ></div>
-        {/* Filament graphic */}
-        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" className={`z-10 transition-colors duration-100 ${hover ? 'text-white' : 'text-gray-300'}`}>
-          <path d="M9 12h6" strokeWidth="2" />
-          <path d="M12 3v18" strokeWidth="0.5" />
-          <circle cx="12" cy="12" r="8" strokeWidth="1" />
-        </svg>
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={service.image}
+          alt={service.title}
+          className={`w-full h-full object-cover transition-transform duration-1000 ease-out ${hover ? 'scale-110 grayscale-0' : 'scale-100 grayscale'}`}
+        />
+        {/* Dark Overlay for readability */}
+        <div className={`absolute inset-0 bg-black/60 transition-opacity duration-500 ${hover ? 'opacity-40' : 'opacity-60'}`}></div>
+
+        {/* Gradient Overlay from bottom */}
+        <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black via-black/80 to-transparent opacity-90"></div>
       </div>
 
       <div className="relative z-10 transform transition-transform duration-500 translate-y-4 group-hover:translate-y-0">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2 block">{service.category}</span>
-        <h3 className="text-4xl font-light tracking-tighter mb-2">{service.title}</h3>
-        <p className={`text-sm text-gray-500 max-w-xs transition-opacity duration-500 ${hover ? 'opacity-100' : 'opacity-0'}`}>
+        <span className="text-[10px] font-bold uppercase tracking-widest text-[#2997FF] mb-2 block">{service.category}</span>
+        <h3 className="text-3xl md:text-4xl font-light tracking-tighter mb-4 text-white">{service.title}</h3>
+        <p className={`text-sm text-gray-300 max-w-xs transition-all duration-500 ${hover ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           {service.description}
         </p>
 
-        {/* Mobile/Tablet explicit CTA */}
-        <div className="mt-4 flex items-center gap-2 text-[#1D1D1F] md:hidden">
-          <span className="text-xs font-bold uppercase tracking-widest">İncele</span>
-          <span className="text-lg">→</span>
+        {/* Action Icon */}
+        <div className={`mt-6 flex items-center gap-2 text-white transition-opacity duration-500 ${hover ? 'opacity-100' : 'opacity-50'}`}>
+          <span className="text-xs font-bold uppercase tracking-widest">DETAYLAR</span>
+          <span className={`text-lg transition-transform duration-300 ${hover ? 'translate-x-2' : ''}`}>→</span>
         </div>
       </div>
     </div>
@@ -86,7 +66,7 @@ const Services: React.FC = () => {
             AKILLI<br />DAĞITIM SİSTEMLERİ.
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
           {displayServices.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))}

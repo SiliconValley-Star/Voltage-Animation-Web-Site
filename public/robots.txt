@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Important pages
+Allow: /about
+Allow: /services
+Allow: /projects
+Allow: /blog
+Allow: /contact
+
+# Block development files
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /*.json$
+Disallow: /*.map$
+
+# Sitemap location
+Sitemap: https://www.sensoyelektrik.com/sitemap.xml
+
+# Crawl delay (optional, helps with server load)
+Crawl-delay: 1

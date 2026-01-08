@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SEOHead from '../Utils/SEOHead';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -177,17 +178,34 @@ const ContactPage: React.FC = () => {
     const [isSent, setIsSent] = useState(false);
     const [selectedService, setSelectedService] = useState('yg');
 
+    const splitText = (text: string) => {
+        return text.split('').map((char, i) => (
+            <span key={i} className="char inline-block">{char === ' ' ? '\u00A0' : char}</span>
+        ));
+    };
+
     useEffect(() => {
         ScrollTrigger.refresh();
         const ctx = gsap.context(() => {
+            const chars = containerRef.current?.querySelectorAll('.char');
+            if (chars) {
+                gsap.from(chars, {
+                    yPercent: 120,
+                    stagger: 0.05,
+                    duration: 1.2,
+                    ease: "power4.out",
+                    delay: 0.2
+                });
+            }
             gsap.from(".reveal-item", {
                 y: 50,
                 opacity: 0,
                 stagger: 0.1,
                 duration: 1,
                 ease: "power3.out",
-                delay: 0.2
+                delay: 0.6
             });
+
         }, containerRef);
         return () => ctx.revert();
     }, []);
@@ -202,7 +220,15 @@ const ContactPage: React.FC = () => {
     };
 
     return (
-        <div ref={containerRef} className="w-full min-h-screen pt-24 bg-transparent overflow-x-hidden relative">
+        <>
+            <SEOHead
+                title="İletişim | Proje Teklifi ve Destek - Şensoy Elektrik"
+                description="Elektrik taahhüt projeniz için ücretsiz keşif ve teklif alın. 7/24 teknik destek. İstanbul merkezli, Türkiye genelinde hizmet."
+                keywords="iletişim, proje teklifi, elektrik taahhüt teklif, ücretsiz keşif, teknik destek, şensoy elektrik iletişim"
+                url="https://www.sensoyelektrik.com/contact"
+                type="website"
+            />
+            <main id="main-content" ref={containerRef} className="w-full min-h-screen pt-24 bg-transparent overflow-x-hidden relative" role="main">
 
             <div className="max-w-[1920px] mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 min-h-[85vh] gap-6 lg:gap-0">
 
@@ -210,8 +236,8 @@ const ContactPage: React.FC = () => {
                 <div className="lg:col-span-5 flex flex-col justify-center lg:pr-8 xl:pr-12 pb-12 lg:pb-0 reveal-item bg-transparent rounded-2xl lg:rounded-none p-6 sm:p-8 lg:p-0">
                     <div className="max-w-xl mx-auto w-full lg:pl-6">
                         <span className="font-mono text-[10px] sm:text-xs text-[#2997FF] tracking-widest mb-4 block">/// İLETİŞİM FORMU</span>
-                        <h1 className="text-[10vw] sm:text-[8vw] lg:text-[4vw] leading-[0.9] font-bold tracking-tighter text-[#1D1D1F] mb-4">
-                            BİZE<br />ULAŞIN
+                        <h1 className="text-[10vw] sm:text-[8vw] lg:text-[4vw] leading-[0.9] font-bold tracking-tighter text-[#1D1D1F] mb-4 overflow-hidden">
+                            {splitText("BİZE ULAŞIN")}
                         </h1>
                         <p className="text-gray-500 text-sm sm:text-base mb-8 sm:mb-12 max-w-md">
                             Projeleriniz için ücretsiz keşif ve teklif almak için formu doldurun. En kısa sürede sizinle iletişime geçeceğiz.
@@ -356,6 +382,7 @@ const ContactPage: React.FC = () => {
 
             </div>
 
+
             {/* CTA SECTION - ABOUT PAGE STYLE */}
             <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] bg-black/90 overflow-hidden flex items-center justify-center group mt-16 sm:mt-24">
                 <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700">
@@ -385,7 +412,8 @@ const ContactPage: React.FC = () => {
                 </div>
             </section>
 
-        </div>
+        </main>
+        </>
     );
 };
 

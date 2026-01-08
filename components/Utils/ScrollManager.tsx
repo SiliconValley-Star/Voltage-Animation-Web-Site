@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useLocation, useNavigationType } from 'react-router-dom';
 import { useLenis } from '@studio-freight/react-lenis';
 
@@ -10,34 +10,31 @@ const ScrollManager: React.FC = () => {
 
     const location = useLocation();
     const navType = useNavigationType();
+    
+    // Ref to track active observers and timeouts for cleanup
+    const cleanupRef = useRef<{
+        resizeObserver?: ResizeObserver;
+        mutationObserver?: MutationObserver;
+        timeoutId?: number;
+    }>({});
 
     // Save scroll position before leaving the current page
     useEffect(() => {
         // Current key for the page we are ON
         const key = `scroll-pos-${location.key}`;
 
-        // Function to save current scroll
+        // Function to save current scroll with error handling
         const saveScroll = () => {
-            if (lenis && lenis.scroll !== undefined) {
-                sessionStorage.setItem(key, lenis.scroll.toString());
-            } else {
-                sessionStorage.setItem(key, window.scrollY.toString());
+            try {
+                if (lenis && lenis.scroll !== undefined) {
+                    sessionStorage.setItem(key, lenis.scroll.toString());
+                } else {
+                    sessionStorage.setItem(key, window.scrollY.toString());
+                }
+            } catch (error) {
+                console.warn('Failed to save scroll position:', error);
             }
         };
-
-        // Save periodically or just assume we save before route change via cleanup?
-        // Cleanup runs AFTER route change usually in React, which might be tricky for "current" key if it changed.
-        // Actually, location.key changes on route change. So the effect for the *previous* location unmounts.
-        // The previous location's effect cleanup "should" capture the scroll state... 
-        // BUT, lenis might have already reset or we might race.
-        // Better strategy: Save continuously or on specific events?
-        // Let's try saving on 'beforeunload' and periodically (debounce) or just rely on the fact that 
-        // we want to restore specifically.
-
-        // Actually, React Router v6+:
-        // We can just save the scroll position of the *current* page when we are about to leave it.
-        // But how do we detect "leaving"?
-        // The effect cleanup function runs when location changes.
 
         return () => {
             saveScroll();
@@ -48,6 +45,14 @@ const ScrollManager: React.FC = () => {
     useEffect(() => {
         if (!lenis) return;
 
+        // Clear any existing observers/timeouts from previous effect runs
+        const cleanup = cleanupRef.current;
+        cleanup.resizeObserver?.disconnect();
+        cleanup.mutationObserver?.disconnect();
+        if (cleanup.timeoutId) {
+            clearTimeout(cleanup.timeoutId);
+        }
+
         const key = `scroll-pos-${location.key}`;
 
         // Handle Navigation Types
@@ -56,22 +61,24 @@ const ScrollManager: React.FC = () => {
             if (savedScroll) {
                 const targetScroll = parseFloat(savedScroll);
 
-                // Smart Restoration:
-                // 1. Attempt immediate restoration
-                // 2. If target > limit, wait for layout expansion
-
+                // Smart Restoration with proper cleanup
                 const restore = () => {
-                    // Force recalculation of dimensions
-                    lenis.resize();
+                    try {
+                        // Force recalculation of dimensions
+                        lenis.resize();
 
-                    // Check if we can scroll to target
-                    if (lenis.limit >= targetScroll) {
+                        // Check if we can scroll to target
+                        if (lenis.limit >= targetScroll) {
+                            lenis.scrollTo(targetScroll, { immediate: true });
+                            return true; // Success
+                        }
+                        // Attempt to scroll as far as possible anyway
                         lenis.scrollTo(targetScroll, { immediate: true });
-                        return true; // Success
+                        return false; // Clamped
+                    } catch (error) {
+                        console.warn('Scroll restoration failed:', error);
+                        return true; // Treat as success to avoid infinite retry
                     }
-                    // Attempt to scroll as far as possible anyway
-                    lenis.scrollTo(targetScroll, { immediate: true });
-                    return false; // Clamped
                 };
 
                 // Initial attempt
@@ -82,17 +89,21 @@ const ScrollManager: React.FC = () => {
                     // Observe body resize to retry when height grows.
                     const resizeObserver = new ResizeObserver(() => {
                         if (restore()) {
-                            // If we successfully reached the target (limit >= target), stop observing
+                            // Success - cleanup observer
                             resizeObserver.disconnect();
+                            cleanupRef.current.resizeObserver = undefined;
                         }
                     });
 
                     resizeObserver.observe(document.body);
+                    cleanupRef.current.resizeObserver = resizeObserver;
 
                     // Safety timeout: stop trying after 2 seconds
-                    setTimeout(() => resizeObserver.disconnect(), 2000);
-
-                    return () => resizeObserver.disconnect();
+                    cleanupRef.current.timeoutId = window.setTimeout(() => {
+                        resizeObserver.disconnect();
+                        cleanupRef.current.resizeObserver = undefined;
+                        cleanupRef.current.timeoutId = undefined;
+                    }, 2000);
                 }
             }
         } else {
@@ -100,27 +111,60 @@ const ScrollManager: React.FC = () => {
             if (location.hash) {
                 const target = document.querySelector(location.hash);
                 if (target) {
-                    lenis.scrollTo(target as HTMLElement, { immediate: true });
+                    try {
+                        lenis.scrollTo(target as HTMLElement, { immediate: true });
+                    } catch (error) {
+                        console.warn('Hash scroll failed:', error);
+                    }
                 } else {
-                    // Wait for element
+                    // Wait for element with proper cleanup
                     const observer = new MutationObserver(() => {
                         const t = document.querySelector(location.hash);
                         if (t) {
-                            lenis.scrollTo(t as HTMLElement, { immediate: true });
+                            try {
+                                lenis.scrollTo(t as HTMLElement, { immediate: true });
+                            } catch (error) {
+                                console.warn('Hash scroll failed:', error);
+                            }
                             observer.disconnect();
+                            cleanupRef.current.mutationObserver = undefined;
                         }
                     });
+                    
                     observer.observe(document.body, { childList: true, subtree: true });
-                    setTimeout(() => observer.disconnect(), 1000);
+                    cleanupRef.current.mutationObserver = observer;
+                    
+                    // Safety timeout for mutation observer
+                    cleanupRef.current.timeoutId = window.setTimeout(() => {
+                        observer.disconnect();
+                        cleanupRef.current.mutationObserver = undefined;
+                        cleanupRef.current.timeoutId = undefined;
+                    }, 1000);
                 }
             } else {
-                lenis.scrollTo(0, { immediate: true });
+                try {
+                    lenis.scrollTo(0, { immediate: true });
+                } catch (error) {
+                    console.warn('Scroll to top failed:', error);
+                }
             }
         }
 
         if ('scrollRestoration' in window.history) {
             window.history.scrollRestoration = 'manual';
         }
+
+        // Cleanup function for this effect
+        return () => {
+            const cleanup = cleanupRef.current;
+            cleanup.resizeObserver?.disconnect();
+            cleanup.mutationObserver?.disconnect();
+            if (cleanup.timeoutId) {
+                clearTimeout(cleanup.timeoutId);
+            }
+            // Reset refs
+            cleanupRef.current = {};
+        };
 
     }, [location, navType, lenis]);
 
