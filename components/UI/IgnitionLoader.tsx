@@ -129,12 +129,10 @@ const IgnitionLoader: React.FC<IgnitionLoaderProps> = ({ onComplete }) => {
     };
   }, [onComplete]);
 
-  // Smart DPR limiting for Retina displays - consistent with Scene.tsx
+  // Aggressive DPR limiting for fastest loading
   const dprRange = React.useMemo(() => {
-    const maxDpr = window.devicePixelRatio > 2
-      ? Math.min(window.devicePixelRatio, 1.5)
-      : Math.min(window.devicePixelRatio, 2);
-    return [1, maxDpr] as [number, number];
+    // Always use 1 for loading screen for instant startup
+    return [1, 1] as [number, number];
   }, []);
 
   // Responsive camera settings
@@ -155,18 +153,23 @@ const IgnitionLoader: React.FC<IgnitionLoaderProps> = ({ onComplete }) => {
           gl={{
             antialias: false,
             powerPreference: "high-performance",
-            stencil: false
+            stencil: false,
+            alpha: false,
+            depth: true,
+            preserveDrawingBuffer: false
           }}
+          frameloop="always"
+          performance={{ min: 0.5 }}
         >
           <color attach="background" args={['#000000']} />
           <ambientLight intensity={0.1} />
           <Filament progress={progressRef} />
           <EffectComposer>
             <Bloom
-              luminanceThreshold={0.2}
+              luminanceThreshold={0.3}
               mipmapBlur
-              intensity={2.5}
-              radius={0.6}
+              intensity={2}
+              radius={0.5}
             />
           </EffectComposer>
         </Canvas>
