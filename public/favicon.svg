@@ -1,0 +1,10 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Siyah Arka Plan -->
+  <rect width="32" height="32" fill="#000000"/>
+  
+  <!-- Ş Harfi (Beyaz) -->
+  <text x="16" y="22" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">Ş</text>
+  
+  <!-- Sarı Nokta Accent -->
+  <circle cx="24" cy="10" r="3" fill="#FFC20E"/>
+</svg>
