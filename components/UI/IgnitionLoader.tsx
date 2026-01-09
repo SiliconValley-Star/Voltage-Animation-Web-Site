@@ -13,6 +13,13 @@ const Filament: React.FC<{ progress: React.MutableRefObject<number> }> = ({ prog
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.MeshStandardMaterial>(null);
 
+  // Mobile detection for geometry optimization
+  const isMobile = React.useMemo(() => window.innerWidth < 768, []);
+  const torusSegments = React.useMemo(() => ({
+    radialSegments: isMobile ? 12 : 16,
+    tubularSegments: isMobile ? 64 : 100
+  }), [isMobile]);
+
   useFrame((state) => {
     if (!materialRef.current || !meshRef.current) return;
 
@@ -45,7 +52,7 @@ const Filament: React.FC<{ progress: React.MutableRefObject<number> }> = ({ prog
 
   return (
     <mesh ref={meshRef} rotation={[Math.PI / 2, 0, 0]}>
-      <torusGeometry args={[1, 0.02, 16, 100]} />
+      <torusGeometry args={[1, 0.02, torusSegments.radialSegments, torusSegments.tubularSegments]} />
       <meshStandardMaterial
         ref={materialRef}
         color="#111111"
@@ -61,6 +68,9 @@ const IgnitionLoader: React.FC<IgnitionLoaderProps> = ({ onComplete }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const flashRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(true);
+
+  // Mobile detection for responsive camera and UI
+  const isMobile = React.useMemo(() => window.innerWidth < 768, []);
 
   useEffect(() => {
     // Safety check: Ensure DOM elements exist before animating
@@ -119,13 +129,35 @@ const IgnitionLoader: React.FC<IgnitionLoaderProps> = ({ onComplete }) => {
     };
   }, [onComplete]);
 
+  // Smart DPR limiting for Retina displays - consistent with Scene.tsx
+  const dprRange = React.useMemo(() => {
+    const maxDpr = window.devicePixelRatio > 2
+      ? Math.min(window.devicePixelRatio, 1.5)
+      : Math.min(window.devicePixelRatio, 2);
+    return [1, maxDpr] as [number, number];
+  }, []);
+
+  // Responsive camera settings
+  const cameraConfig = React.useMemo(() => ({
+    position: isMobile ? [0, 0, 4.5] as [number, number, number] : [0, 0, 3] as [number, number, number],
+    fov: isMobile ? 55 : 45
+  }), [isMobile]);
+
   if (!active) return null;
 
   return (
     <div ref={containerRef} className="fixed inset-0 z-50 bg-black flex items-center justify-center">
       {/* 3D Scene */}
       <div className="absolute inset-0 z-0">
-        <Canvas camera={{ position: [0, 0, 3], fov: 45 }}>
+        <Canvas
+          camera={cameraConfig}
+          dpr={dprRange}
+          gl={{
+            antialias: false,
+            powerPreference: "high-performance",
+            stencil: false
+          }}
+        >
           <color attach="background" args={['#000000']} />
           <ambientLight intensity={0.1} />
           <Filament progress={progressRef} />
@@ -141,7 +173,7 @@ const IgnitionLoader: React.FC<IgnitionLoaderProps> = ({ onComplete }) => {
       </div>
 
       {/* Audio Visualization / Text Hint */}
-      <div className="absolute bottom-12 text-white/30 text-[10px] tracking-[0.5em] font-light uppercase">
+      <div className={`absolute ${isMobile ? 'bottom-8' : 'bottom-12'} text-white/30 ${isMobile ? 'text-[8px]' : 'text-[10px]'} tracking-[0.5em] font-light uppercase`}>
         System Ignition
       </div>
 
