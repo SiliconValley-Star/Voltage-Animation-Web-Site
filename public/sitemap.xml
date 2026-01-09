@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Ana Sayfa -->
   <url>
-    <loc>https://www.sensoyelektrik.com/</loc>
+    <loc>https://sensoyelektrik.com.tr/</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -10,7 +10,7 @@
 
   <!-- Hakkımızda -->
   <url>
-    <loc>https://www.sensoyelektrik.com/about</loc>
+    <loc>https://sensoyelektrik.com.tr/about</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -18,7 +18,7 @@
 
   <!-- Hizmetlerimiz Ana Sayfa -->
   <url>
-    <loc>https://www.sensoyelektrik.com/services</loc>
+    <loc>https://sensoyelektrik.com.tr/services</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -26,61 +26,61 @@
 
   <!-- Hizmet Detay Sayfaları -->
   <url>
-    <loc>https://www.sensoyelektrik.com/services/trafo-merkezi-kurulumu</loc>
+    <loc>https://sensoyelektrik.com.tr/services/trafo-merkezi-kurulumu</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/services/dagitim-pano-sistemleri</loc>
+    <loc>https://sensoyelektrik.com.tr/services/dagitim-pano-sistemleri</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/services/jenerator-ups-sistemleri</loc>
+    <loc>https://sensoyelektrik.com.tr/services/jenerator-ups-sistemleri</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/services/topraklama-yildirimdan-koruma</loc>
+    <loc>https://sensoyelektrik.com.tr/services/topraklama-yildirimdan-koruma</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/services/kablo-tasima-aydinlatma</loc>
+    <loc>https://sensoyelektrik.com.tr/services/kablo-tasima-aydinlatma</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/services/bina-mekanik-otomasyon</loc>
+    <loc>https://sensoyelektrik.com.tr/services/bina-mekanik-otomasyon</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/services/guvenlik-zayif-akim</loc>
+    <loc>https://sensoyelektrik.com.tr/services/guvenlik-zayif-akim</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/services/iletisim-data-altyapisi</loc>
+    <loc>https://sensoyelektrik.com.tr/services/iletisim-data-altyapisi</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/services/profesyonel-ses-goruntu</loc>
+    <loc>https://sensoyelektrik.com.tr/services/profesyonel-ses-goruntu</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/services/ozel-cagri-interkom</loc>
+    <loc>https://sensoyelektrik.com.tr/services/ozel-cagri-interkom</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -88,7 +88,7 @@
 
   <!-- Projelerimiz Ana Sayfa -->
   <url>
-    <loc>https://www.sensoyelektrik.com/projects</loc>
+    <loc>https://sensoyelektrik.com.tr/projects</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -96,157 +96,157 @@
 
   <!-- Proje Detay Sayfaları (Tüm 26 Proje) -->
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/vakifbank-finansal-cozumler</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/vakifbank-finansal-cozumler</loc>
     <lastmod>2025-12-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/fibabanka-antalya-muratpasa</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/fibabanka-antalya-muratpasa</loc>
     <lastmod>2016-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/halkbank-malazgirt-subesi</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/halkbank-malazgirt-subesi</loc>
     <lastmod>2017-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/okyanus-aluminyum-uretim-tesisi</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/okyanus-aluminyum-uretim-tesisi</loc>
     <lastmod>2024-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/yelken-kalip-metal-as</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/yelken-kalip-metal-as</loc>
     <lastmod>2023-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/celal-tekstil-uretim-tesisi</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/celal-tekstil-uretim-tesisi</loc>
     <lastmod>2023-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/enviropet-geri-donusum</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/enviropet-geri-donusum</loc>
     <lastmod>2022-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/ardahan-et-entegre-tesisleri</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/ardahan-et-entegre-tesisleri</loc>
     <lastmod>2022-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/florya-emlak-konut-villalari</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/florya-emlak-konut-villalari</loc>
     <lastmod>2022-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/general-oto-peugeot-citroen</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/general-oto-peugeot-citroen</loc>
     <lastmod>2021-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/legrand-elektrik-bolge-mudurlugu</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/legrand-elektrik-bolge-mudurlugu</loc>
     <lastmod>2021-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/istanbul-kultur-universitesi</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/istanbul-kultur-universitesi</loc>
     <lastmod>2021-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/istanbul-kultur-koleji</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/istanbul-kultur-koleji</loc>
     <lastmod>2020-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/iku-incirli-meslek-yuksekokulu</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/iku-incirli-meslek-yuksekokulu</loc>
     <lastmod>2020-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/alkent-istanbul-2000</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/alkent-istanbul-2000</loc>
     <lastmod>2020-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/pelican-hill-evleri-villa</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/pelican-hill-evleri-villa</loc>
     <lastmod>2020-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/aksa-et-ve-sut-urunleri</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/aksa-et-ve-sut-urunleri</loc>
     <lastmod>2020-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/cups-and-clouds-istanbul-havalimani</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/cups-and-clouds-istanbul-havalimani</loc>
     <lastmod>2019-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/skyland-roche-bobois</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/skyland-roche-bobois</loc>
     <lastmod>2019-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/movenpick-hotel-istanbul-bosphorus</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/movenpick-hotel-istanbul-bosphorus</loc>
     <lastmod>2019-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/the-biancho-hotel-old-city</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/the-biancho-hotel-old-city</loc>
     <lastmod>2018-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/the-biancho-hotel-pera</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/the-biancho-hotel-pera</loc>
     <lastmod>2018-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/vera-clinic-sube-2</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/vera-clinic-sube-2</loc>
     <lastmod>2018-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/estevera-saglik-hizmetleri</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/estevera-saglik-hizmetleri</loc>
     <lastmod>2018-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/yali-atakoy-ofis</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/yali-atakoy-ofis</loc>
     <lastmod>2017-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/projects/otto-atasehir-lankon</loc>
+    <loc>https://sensoyelektrik.com.tr/projects/otto-atasehir-lankon</loc>
     <lastmod>2016-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -254,7 +254,7 @@
 
   <!-- Blog Ana Sayfa -->
   <url>
-    <loc>https://www.sensoyelektrik.com/blog</loc>
+    <loc>https://sensoyelektrik.com.tr/blog</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -262,129 +262,137 @@
 
   <!-- Blog Detay Sayfaları (Son makaleler) -->
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/trafo-merkezi-bakimi-dikkat-edilmesi-gerekenler</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/trafo-merkezi-bakimi-dikkat-edilmesi-gerekenler</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/yuksek-gerilim-sistemlerinde-guvenlik-onlemleri</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/yuksek-gerilim-sistemlerinde-guvenlik-onlemleri</loc>
     <lastmod>2025-01-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/alcak-gerilim-pano-tasariminda-modern-yaklasimlar</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/alcak-gerilim-pano-tasariminda-modern-yaklasimlar</loc>
     <lastmod>2025-01-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/endustriyel-tesislerde-enerji-verimliligi</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/endustriyel-tesislerde-enerji-verimliligi</loc>
     <lastmod>2025-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/topraklama-sistemleri-hayati-onem-tasiyan-detaylar</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/topraklama-sistemleri-hayati-onem-tasiyan-detaylar</loc>
     <lastmod>2025-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/yildirimdan-korunma-sistemleri-kurulum-rehberi</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/yildirimdan-korunma-sistemleri-kurulum-rehberi</loc>
     <lastmod>2025-01-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/jenerator-sistemleri-kesintisiz-enerji-icin-dogru-secim</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/jenerator-sistemleri-kesintisiz-enerji-icin-dogru-secim</loc>
     <lastmod>2025-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/ups-sistemleri-ve-veri-merkezi-guvenligi</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/ups-sistemleri-ve-veri-merkezi-guvenligi</loc>
     <lastmod>2024-12-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/bina-otomasyon-sistemleri-bms-nedir</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/bina-otomasyon-sistemleri-bms-nedir</loc>
     <lastmod>2024-12-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/yangin-ihbar-sistemleri-kurulum-ve-bakim</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/yangin-ihbar-sistemleri-kurulum-ve-bakim</loc>
     <lastmod>2024-12-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/cctv-sistemlerinde-enerji-altyapisi</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/cctv-sistemlerinde-enerji-altyapisi</loc>
     <lastmod>2024-12-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/kartli-gecis-sistemleri-ve-guvenlik-entegrasyonu</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/kartli-gecis-sistemleri-ve-guvenlik-entegrasyonu</loc>
     <lastmod>2024-12-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/led-aydinlatma-ile-enerji-tasarrufu</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/led-aydinlatma-ile-enerji-tasarrufu</loc>
     <lastmod>2024-12-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/kompanzasyon-sistemleri-reaktif-guc-yonetimi</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/kompanzasyon-sistemleri-reaktif-guc-yonetimi</loc>
     <lastmod>2024-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/elektrik-projelerinde-fizibilite-calismasinin-onemi</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/elektrik-projelerinde-fizibilite-calismasinin-onemi</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/sanayi-tesislerinde-elektrik-tesisati-standartlari</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/sanayi-tesislerinde-elektrik-tesisati-standartlari</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/akilli-sebekeler-ve-gelecegin-enerji-altyapisi</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/akilli-sebekeler-ve-gelecegin-enerji-altyapisi</loc>
     <lastmod>2024-12-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/hastane-elektrik-sistemlerinde-kritik-gereksinimler</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/hastane-elektrik-sistemlerinde-kritik-gereksinimler</loc>
     <lastmod>2024-12-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/otel-ve-konaklama-tesislerinde-elektrik-cozumleri</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/otel-ve-konaklama-tesislerinde-elektrik-cozumleri</loc>
     <lastmod>2024-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.sensoyelektrik.com/blog/elektrik-taahhut-firmasi-secerken-dikkat-edilmesi-gerekenler</loc>
+    <loc>https://sensoyelektrik.com.tr/blog/elektrik-taahhut-firmasi-secerken-dikkat-edilmesi-gerekenler</loc>
     <lastmod>2024-11-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
+  <!-- SSS (Sık Sorulan Sorular) -->
+  <url>
+    <loc>https://sensoyelektrik.com.tr/sss</loc>
+    <lastmod>2026-01-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- İletişim -->
   <url>
-    <loc>https://www.sensoyelektrik.com/contact</loc>
+    <loc>https://sensoyelektrik.com.tr/contact</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

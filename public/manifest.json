@@ -66,21 +66,34 @@
       ]
     },
     {
-      "name": "Projelerimiz", 
+      "name": "Projelerimiz",
       "short_name": "Projeler",
       "description": "Tamamladığımız projeleri incele",
       "url": "/projects",
       "icons": [
         {
           "src": "/shortcut-projects.png",
-          "sizes": "96x96", 
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "SSS",
+      "short_name": "SSS",
+      "description": "Sık sorulan sorular",
+      "url": "/sss",
+      "icons": [
+        {
+          "src": "/shortcut-contact.png",
+          "sizes": "96x96",
           "type": "image/png"
         }
       ]
     },
     {
       "name": "İletişim",
-      "short_name": "İletişim", 
+      "short_name": "İletişim",
       "description": "Bizimle iletişime geç",
       "url": "/contact",
       "icons": [
