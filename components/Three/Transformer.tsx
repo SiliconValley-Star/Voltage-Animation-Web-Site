@@ -5,7 +5,11 @@ import * as THREE from 'three';
 import { COLORS } from '../../constants';
 import { useScrollState } from '../Utils/ScrollStore';
 
-const Transformer: React.FC = () => {
+interface TransformerProps {
+  isMobile: boolean;
+}
+
+const Transformer: React.FC<TransformerProps> = ({ isMobile }) => {
   const groupRef = useRef<THREE.Group>(null);
   const coreRef = useRef<THREE.Mesh>(null);
   const sparkRef = useRef<THREE.Mesh>(null);
@@ -13,6 +17,22 @@ const Transformer: React.FC = () => {
   
   // Cache DOM measurements to avoid repeated queries
   const viewportHeight = useRef(window.innerHeight);
+  
+  // Optimized geometry segments for mobile performance
+  const geometryConfig = useMemo(() => ({
+    cylinder: {
+      radialSegments: isMobile ? 16 : 32,
+      heightSegments: 1
+    },
+    torus: {
+      radialSegments: isMobile ? 12 : 16,
+      tubularSegments: isMobile ? 32 : 50
+    },
+    sphere: {
+      widthSegments: isMobile ? 12 : 16,
+      heightSegments: isMobile ? 12 : 16
+    }
+  }), [isMobile]);
   
   // Memoize color objects to prevent recreation on every frame
   const colors = useMemo(() => ({
@@ -76,25 +96,37 @@ const Transformer: React.FC = () => {
       <group ref={groupRef} scale={0.9}>
         {/* Outer Glass Casing */}
         <mesh>
-          <cylinderGeometry args={[1.5, 1.5, 3.5, 32, 1, false]} />
-          <MeshTransmissionMaterial
-            backside
-            backsideThickness={0.5}
-            thickness={2}
-            chromaticAberration={0.05}
-            anisotropy={0.5}
-            distortion={0.5}
-            distortionScale={0.5}
-            temporalDistortion={0.1}
-            ior={1.5}
-            color={COLORS.pureWhite}
-            background={new THREE.Color(COLORS.ivory)}
-          />
+          <cylinderGeometry args={[1.5, 1.5, 3.5, geometryConfig.cylinder.radialSegments, geometryConfig.cylinder.heightSegments, false]} />
+          {isMobile ? (
+            <meshPhysicalMaterial
+              transmission={0.6}
+              thickness={0.5}
+              roughness={0.2}
+              color={COLORS.pureWhite}
+              ior={1.5}
+              transparent
+              opacity={0.85}
+            />
+          ) : (
+            <MeshTransmissionMaterial
+              backside
+              backsideThickness={0.5}
+              thickness={2}
+              chromaticAberration={0.05}
+              anisotropy={0.5}
+              distortion={0.5}
+              distortionScale={0.5}
+              temporalDistortion={0.1}
+              ior={1.5}
+              color={COLORS.pureWhite}
+              background={new THREE.Color(COLORS.ivory)}
+            />
+          )}
         </mesh>
 
         {/* Inner Copper Coils */}
         <mesh ref={coreRef} rotation={[0, 0, Math.PI / 2]}>
-          <torusGeometry args={[0.8, 0.3, 16, 50]} />
+          <torusGeometry args={[0.8, 0.3, geometryConfig.torus.radialSegments, geometryConfig.torus.tubularSegments]} />
           <meshStandardMaterial
             color={COLORS.copper}
             roughness={0.2}
@@ -105,17 +137,17 @@ const Transformer: React.FC = () => {
 
         {/* Secondary Coil */}
         <mesh position={[0, 0.8, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.6, 0.6, 1, 32]} />
+          <cylinderGeometry args={[0.6, 0.6, 1, geometryConfig.cylinder.radialSegments]} />
           <meshStandardMaterial
-            color="#222"
+            color="#8B6F47"
             roughness={0.4}
             metalness={0.8}
           />
         </mesh>
         <mesh position={[0, -0.8, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.6, 0.6, 1, 32]} />
+          <cylinderGeometry args={[0.6, 0.6, 1, geometryConfig.cylinder.radialSegments]} />
           <meshStandardMaterial
-            color="#222"
+            color="#8B6F47"
             roughness={0.4}
             metalness={0.8}
           />
@@ -123,19 +155,19 @@ const Transformer: React.FC = () => {
 
         {/* The Spark/Plasma Center */}
         <mesh ref={sparkRef}>
-          <sphereGeometry args={[0.2, 16, 16]} />
+          <sphereGeometry args={[0.2, geometryConfig.sphere.widthSegments, geometryConfig.sphere.heightSegments]} />
           <meshBasicMaterial color={COLORS.plasmaBlue} toneMapped={false} />
           <pointLight distance={3} intensity={5} color={COLORS.plasmaBlue} />
         </mesh>
 
         {/* Caps */}
         <mesh position={[0, 1.8, 0]}>
-          <cylinderGeometry args={[1.6, 1.6, 0.1, 32]} />
-          <meshStandardMaterial color="#333" roughness={0.5} metalness={0.5} />
+          <cylinderGeometry args={[1.6, 1.6, 0.1, geometryConfig.cylinder.radialSegments]} />
+          <meshStandardMaterial color="#A0826D" roughness={0.5} metalness={0.5} />
         </mesh>
         <mesh position={[0, -1.8, 0]}>
-          <cylinderGeometry args={[1.6, 1.6, 0.1, 32]} />
-          <meshStandardMaterial color="#333" roughness={0.5} metalness={0.5} />
+          <cylinderGeometry args={[1.6, 1.6, 0.1, geometryConfig.cylinder.radialSegments]} />
+          <meshStandardMaterial color="#A0826D" roughness={0.5} metalness={0.5} />
         </mesh>
       </group>
     </Float>
