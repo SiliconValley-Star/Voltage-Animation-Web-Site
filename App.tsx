@@ -1,7 +1,7 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
-import IgnitionLoader from './components/UI/IgnitionLoader'; // Use as fallback or separate loading spinner
+import IgnitionLoader from './components/UI/IgnitionLoader';
 import ErrorBoundary from './components/Utils/ErrorBoundary';
 import Analytics from './components/Utils/Analytics';
 import ComponentPreloader from './components/Utils/ComponentPreloader';
@@ -27,9 +27,17 @@ const PageLoader = () => (
 );
 
 const App: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const isMobile = React.useMemo(() => window.innerWidth < 768, []);
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
+
   return (
     <ErrorBoundary>
       <ScrollProvider>
+        {isLoading && isMobile && <IgnitionLoader onComplete={handleLoadingComplete} />}
         <BrowserRouter>
           <Analytics />
           <ComponentPreloader />
