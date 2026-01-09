@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const ContactCTA: React.FC = () => {
     return (
-        <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] bg-black/90 overflow-hidden flex items-center justify-center group">
+        <section className="relative w-full h-[50vh] sm:h-[55vh] md:h-[60vh] bg-black/90 overflow-hidden flex items-center justify-center group">
             <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-[#2997FF] rounded-full blur-[120px] mix-blend-screen animate-pulse"></div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35vw] h-[35vw] bg-white rounded-full blur-[90px] mix-blend-overlay"></div>

@@ -1,9 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import emailjs from '@emailjs/browser';
 import SEOHead from '../Utils/SEOHead';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// EmailJS Configuration
+const EMAILJS_SERVICE_ID = 'service_wdyv02v';
+const EMAILJS_PUBLIC_KEY = 'ATKNa0CO3XVRztdti';
+const COMPANY_TEMPLATE_ID = 'template_o2dvhxh'; // Şirkete gelecek
 
 // --- DATA ---
 
@@ -174,8 +180,11 @@ const CustomSelect: React.FC<{ value: string; onChange: (val: string) => void }>
 
 const ContactPage: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSent, setIsSent] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [selectedService, setSelectedService] = useState('yg');
 
     const splitText = (text: string) => {
@@ -210,13 +219,68 @@ const ContactPage: React.FC = () => {
         return () => ctx.revert();
     }, []);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
-        setTimeout(() => {
+        setIsError(false);
+        setErrorMessage('');
+
+        if (!formRef.current) return;
+
+        try {
+            const formData = new FormData(e.currentTarget);
+            const selectedServiceLabel = SERVICE_OPTIONS.find(opt => opt.id === selectedService)?.label || '';
+
+            // Template parametrelerini hazırla - EmailJS template'lerindeki değişken isimlerine uygun
+            const templateParams = {
+                name: formData.get('name') as string,
+                email: formData.get('email') as string,
+                phone: formData.get('phone') as string,
+                company: (formData.get('company') as string) || 'Belirtilmedi',
+                service_type: selectedServiceLabel,
+                message: formData.get('message') as string,
+                title: `Yeni İletişim Talebi: ${selectedServiceLabel}`
+            };
+
+            console.log('Gönderilen parametreler:', templateParams);
+
+            // Şirkete notification email gönder (template_o2dvhxh)
+            console.log('Şirkete email gönderiliyor...');
+            const companyResponse = await emailjs.send(
+                EMAILJS_SERVICE_ID,
+                COMPANY_TEMPLATE_ID,
+                templateParams,
+                EMAILJS_PUBLIC_KEY
+            );
+            console.log('Şirket email yanıtı:', companyResponse);
+
+            // Başarılı
             setIsSubmitting(false);
             setIsSent(true);
-        }, 2000);
+            
+            // Formu sıfırla
+            formRef.current.reset();
+            setSelectedService('yg');
+
+        } catch (error: any) {
+            console.error('Email gönderim hatası:', error);
+            console.error('Hata detayı:', {
+                status: error.status,
+                text: error.text,
+                message: error.message
+            });
+            setIsSubmitting(false);
+            setIsError(true);
+            
+            // Daha detaylı hata mesajı
+            let errorMsg = 'Mesajınız gönderilemedi. ';
+            if (error.text) {
+                errorMsg += `Hata: ${error.text}. `;
+            }
+            errorMsg += 'Lütfen daha sonra tekrar deneyin veya doğrudan bize ulaşın.';
+            
+            setErrorMessage(errorMsg);
+        }
     };
 
     return (
@@ -225,7 +289,7 @@ const ContactPage: React.FC = () => {
                 title="İletişim | Proje Teklifi ve Destek - Şensoy Elektrik"
                 description="Elektrik taahhüt projeniz için ücretsiz keşif ve teklif alın. 7/24 teknik destek. İstanbul merkezli, Türkiye genelinde hizmet."
                 keywords="iletişim, proje teklifi, elektrik taahhüt teklif, ücretsiz keşif, teknik destek, şensoy elektrik iletişim"
-                url="https://www.sensoyelektrik.com/contact"
+                url="https://sensoyelektrik.com.tr/contact"
                 type="website"
             />
             <main id="main-content" ref={containerRef} className="w-full min-h-screen pt-24 bg-transparent overflow-x-hidden relative" role="main">
@@ -244,7 +308,7 @@ const ContactPage: React.FC = () => {
                         </p>
 
                         {!isSent ? (
-                            <form onSubmit={handleSubmit} className="relative z-10">
+                            <form ref={formRef} onSubmit={handleSubmit} className="relative z-10">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
                                     <FormInput label="Ad Soyad" name="name" placeholder="Adınızı girin" required />
                                     <FormInput label="Şirket" name="company" placeholder="Şirket adı" />
@@ -273,6 +337,21 @@ const ContactPage: React.FC = () => {
                                     </button>
                                     <span className="text-[10px] text-gray-400">* Zorunlu alanlar</span>
                                 </div>
+
+                                {/* Error Message */}
+                                {isError && (
+                                    <div className="mt-6 bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl">
+                                        <div className="flex items-start gap-3">
+                                            <svg className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <div>
+                                                <p className="text-sm font-medium mb-1">Gönderim Hatası</p>
+                                                <p className="text-xs text-red-600">{errorMessage}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </form>
                         ) : (
                             <div className="bg-gradient-to-br from-[#1D1D1F] to-[#2a2a2a] text-white p-8 sm:p-12 rounded-2xl relative overflow-hidden">
@@ -284,7 +363,14 @@ const ContactPage: React.FC = () => {
                                 <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-6">
                                     Uzman ekibimiz en kısa sürede sizinle iletişime geçecektir. Teşekkür ederiz.
                                 </p>
-                                <button onClick={() => setIsSent(false)} className="text-xs font-mono text-[#2997FF] hover:text-white transition-colors flex items-center gap-2">
+                                <button
+                                    onClick={() => {
+                                        setIsSent(false);
+                                        setIsError(false);
+                                        setErrorMessage('');
+                                    }}
+                                    className="text-xs font-mono text-[#2997FF] hover:text-white transition-colors flex items-center gap-2"
+                                >
                                     <span>←</span> YENİ MESAJ GÖNDER
                                 </button>
                             </div>
@@ -317,15 +403,15 @@ const ContactPage: React.FC = () => {
                                     <div>
                                         <span className="block text-[10px] sm:text-xs text-gray-600 mb-2 font-mono">ADRES</span>
                                         <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
-                                            Halide Edip Adıvar Cad.<br />
-                                            No:105/A<br />
-                                            ŞİŞLİ / İSTANBUL
+                                            H. Edip Adıvar<br />
+                                            Halide Edip Adıvar Cd. No:111<br />
+                                            34382 ŞİŞLİ / İSTANBUL
                                         </p>
                                     </div>
                                     <div>
                                         <span className="block text-[10px] sm:text-xs text-gray-600 mb-2 font-mono">HARİTA</span>
                                         <a
-                                            href="https://maps.google.com/?q=Halide+Edip+Adıvar+Cad+No+105+Şişli+İstanbul"
+                                            href="https://maps.google.com/?q=Halide+Edip+Adıvar+Cd+No+111+34382+Şişli+İstanbul"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="inline-flex items-center gap-2 text-[#2997FF] hover:text-white transition-colors text-sm"
@@ -366,11 +452,11 @@ const ContactPage: React.FC = () => {
                                     <div className="space-y-4">
                                         <div>
                                             <span className="block text-[10px] text-gray-600 mb-1 font-mono">TELEFON</span>
-                                            <a href="tel:+902125555555" className="text-base sm:text-lg font-mono hover:text-[#2997FF] transition-colors block">+90 (212) 555 55 55</a>
+                                            <a href="tel:+905301191277" className="text-base sm:text-lg font-mono hover:text-[#2997FF] transition-colors block">+90 530 119 12 77</a>
                                         </div>
                                         <div>
                                             <span className="block text-[10px] text-gray-600 mb-1 font-mono">E-POSTA</span>
-                                            <a href="mailto:info@sensoyelektrik.com" className="text-base sm:text-lg font-mono hover:text-[#2997FF] transition-colors block">info@sensoyelektrik.com</a>
+                                            <a href="mailto:info@sensoyelektrik.com.tr" className="text-base sm:text-lg font-mono hover:text-[#2997FF] transition-colors block">info@sensoyelektrik.com.tr</a>
                                         </div>
                                     </div>
                                 </div>
@@ -407,7 +493,7 @@ const ContactPage: React.FC = () => {
                         </a>
                     </div>
                     <p className="mt-6 sm:mt-8 font-mono text-[10px] sm:text-xs text-gray-500">
-                        Halide Edip Adıvar Cad. No:105/A ŞİŞLİ/İSTANBUL
+                        H. Edip Adıvar, Halide Edip Adıvar Cd. No:111, 34382 Şişli/İstanbul
                     </p>
                 </div>
             </section>

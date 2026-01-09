@@ -202,19 +202,58 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center gap-3 cursor-pointer group relative z-50"
+            className="flex flex-col items-start cursor-pointer group relative z-50 select-none hover:scale-[1.02] transition-transform duration-300"
             onClick={() => {
               setIsMobileMenuOpen(false);
               setHoveredItem(null);
             }}
           >
-            <div className={`w-10 h-10 flex items-center justify-center rounded-sm transition-colors duration-500 ${isMobileMenuOpen ? 'bg-white text-black' : 'bg-black text-white'}`}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
+            <div className="flex items-center gap-[2px]">
+              {/* Ş Harfi */}
+              <svg height="28" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
+                <text x="0" y="22" fontFamily="'Inter', sans-serif" fontWeight="900" fontSize="28" fill={isMobileMenuOpen ? '#FFFFFF' : '#000000'} letterSpacing="-1.5">Ş</text>
+              </svg>
+              
+              {/* E Harfi */}
+              <svg height="28" viewBox="0 0 20 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
+                <text x="0" y="22" fontFamily="'Inter', sans-serif" fontWeight="900" fontSize="28" fill={isMobileMenuOpen ? '#FFFFFF' : '#000000'} letterSpacing="-1.5">E</text>
+              </svg>
+              
+              {/* N Harfi */}
+              <svg height="28" viewBox="0 0 22 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
+                <text x="0" y="22" fontFamily="'Inter', sans-serif" fontWeight="900" fontSize="28" fill={isMobileMenuOpen ? '#FFFFFF' : '#000000'} letterSpacing="-1.5">N</text>
+              </svg>
+              
+              {/* S Harfi */}
+              <svg height="28" viewBox="0 0 20 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
+                <text x="0" y="22" fontFamily="'Inter', sans-serif" fontWeight="900" fontSize="28" fill={isMobileMenuOpen ? '#FFFFFF' : '#000000'} letterSpacing="-1.5">S</text>
+              </svg>
+              
+              {/* O Harfi - İçinde Sarı Daire */}
+              <div className="relative w-[22px] h-[22px] mx-[1px] flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                  <circle cx="12" cy="12" r="9" fill="none" stroke={isMobileMenuOpen ? '#FFFFFF' : '#000000'} strokeWidth="3.5" />
+                  <circle cx="12" cy="12" r="5" fill="#FFC20E" />
+                </svg>
+              </div>
+              
+              {/* Y Harfi */}
+              <svg height="28" viewBox="0 0 20 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
+                <text x="0" y="22" fontFamily="'Inter', sans-serif" fontWeight="900" fontSize="28" fill={isMobileMenuOpen ? '#FFFFFF' : '#000000'} letterSpacing="-1.5">Y</text>
+              </svg>
             </div>
-            <div className="flex flex-col">
-              <span className={`font-bold tracking-tighter text-lg leading-none transition-colors duration-500 ${isMobileMenuOpen ? 'text-white' : 'text-black'}`}>
-                ŞENSOY ELEKTRİK
-              </span>
+            
+            {/* Alt Yazı: ELEKTRIK */}
+            <div className="w-full flex justify-between px-[1px] mt-[2px]">
+              {['E','L','E','K','T','R','İ','K'].map((char, i) => (
+                <span
+                  key={i}
+                  className={`text-[9px] font-bold transition-colors duration-500 ${isMobileMenuOpen ? 'text-white/80' : 'text-black/80'}`}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {char}
+                </span>
+              ))}
             </div>
           </Link>
 
@@ -299,7 +338,8 @@ const Header: React.FC = () => {
             <span className="text-xs font-mono text-[#2997FF] uppercase tracking-widest">Sistem Durumu: ONLİNE</span>
             <p className="text-gray-500 text-sm max-w-xs">
               ŞENSOY ELEKTRİK Genel Merkez<br />
-              Maslak, İstanbul / Türkiye
+              H. Edip Adıvar, Halide Edip Adıvar Cd. No:111<br />
+              34382 Şişli, İstanbul / Türkiye
             </p>
             <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="bg-white text-black py-4 rounded-full font-bold uppercase tracking-widest text-xs mt-4 text-center">
               Müşteri Paneli Girişi

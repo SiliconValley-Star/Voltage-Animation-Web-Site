@@ -82,10 +82,10 @@ const CableSystem: React.FC = () => {
     );
   }, [isMobile]);
 
-  // Memoized values for performance
+  // Memoized values for performance - optimized for Retina displays
   const tubularSegments = useMemo(() => isMobile ? 256 : 512, [isMobile]);
   const radius = useMemo(() => isMobile ? 0.08 : 0.12, [isMobile]);
-  const radialSegments = useMemo(() => isMobile ? 3 : 4, [isMobile]);
+  const radialSegments = useMemo(() => isMobile ? 3 : 6, [isMobile]);
 
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },

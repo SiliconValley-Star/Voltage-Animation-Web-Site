@@ -17,6 +17,8 @@ const BlogPage = React.lazy(() => import('./components/Pages/BlogPage'));
 const BlogDetailPage = React.lazy(() => import('./components/Pages/BlogDetailPage'));
 const ContactPage = React.lazy(() => import('./components/Pages/ContactPage'));
 const AboutPage = React.lazy(() => import('./components/Pages/AboutPage'));
+const FAQPage = React.lazy(() => import('./components/Pages/FAQPage'));
+const NotFoundPage = React.lazy(() => import('./components/Pages/NotFoundPage'));
 
 const PageLoader = () => (
   <div className="w-full h-screen bg-black flex items-center justify-center">
@@ -43,6 +45,8 @@ const App: React.FC = () => {
                 <Route path="blog" element={<BlogPage />} />
                 <Route path="blog/:slug" element={<BlogDetailPage />} />
                 <Route path="contact" element={<ContactPage />} />
+                <Route path="sss" element={<FAQPage />} />
+                <Route path="*" element={<NotFoundPage />} />
               </Route>
             </Routes>
           </Suspense>

@@ -6,9 +6,9 @@ const FeaturedProjects: React.FC = () => {
     const featured = PROJECTS.slice(0, 9);
 
     return (
-        <section className="py-24 md:py-32 px-6 bg-white/50 backdrop-blur-md border-t border-black/5">
+        <section className="py-16 md:py-24 px-6 bg-white/50 backdrop-blur-md border-t border-black/5">
             <div className="max-w-7xl mx-auto">
-                <div className="flex justify-between items-end mb-16">
+                <div className="flex justify-between items-end mb-12">
                     <div>
                         <span className="text-[#2997FF] font-bold tracking-widest uppercase text-xs mb-4 block">PORTFOLYO</span>
                         <h2 className="text-4xl md:text-5xl font-medium tracking-tighter text-[#1D1D1F]">

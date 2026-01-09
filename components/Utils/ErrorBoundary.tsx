@@ -92,11 +92,11 @@ class ErrorBoundary extends Component<Props, State> {
             <div className="mt-12 pt-8 border-t border-gray-800">
               <p className="text-sm text-gray-500">
                 Sorun devam ederse:{' '}
-                <a 
-                  href="mailto:info@sensoyelektrik.com" 
+                <a
+                  href="mailto:info@sensoyelektrik.com.tr"
                   className="text-[#2997FF] hover:underline"
                 >
-                  info@sensoyelektrik.com
+                  info@sensoyelektrik.com.tr
                 </a>
               </p>
             </div>

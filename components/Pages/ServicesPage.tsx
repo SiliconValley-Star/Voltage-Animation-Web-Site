@@ -274,7 +274,7 @@ const ServicesPage: React.FC = () => {
                         </a>
                     </div>
                     <p className="mt-6 sm:mt-8 font-mono text-[10px] sm:text-xs text-gray-500">
-                        Halide Edip Adıvar Cad. No:105/A ŞİŞLİ/İSTANBUL
+                        H. Edip Adıvar, Halide Edip Adıvar Cd. No:111, 34382 Şişli/İstanbul
                     </p>
                 </div>
             </section>

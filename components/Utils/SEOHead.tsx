@@ -20,15 +20,15 @@ interface SEOHeadProps {
 const COMPANY_INFO = {
   name: 'Şensoy Elektrik Elektronik İnşaat Proje Taahhüt San.Tic.Ltd.',
   shortName: 'Şensoy Elektrik',
-  url: 'https://www.sensoyelektrik.com',
-  telephone: '+90 (212) 555 55 55',
-  email: 'info@sensoyelektrik.com',
+  url: 'https://sensoyelektrik.com.tr',
+  telephone: '+90 530 119 12 77',
+  email: 'info@sensoyelektrik.com.tr',
   foundingDate: '2014',
   address: {
-    streetAddress: 'Halide Edip Adıvar Cad. No:105/A',
-    addressLocality: 'İstanbul',
+    streetAddress: 'Halide Edip Adıvar Cd. No:111',
+    addressLocality: 'Şişli',
     addressRegion: 'İstanbul',
-    postalCode: '34000',
+    postalCode: '34382',
     addressCountry: 'TR'
   },
   sameAs: [

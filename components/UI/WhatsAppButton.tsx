@@ -6,7 +6,7 @@ interface WhatsAppButtonProps {
 }
 
 const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
-    phoneNumber = "905555555555"
+    phoneNumber = "905301191277"
 }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isFooterVisible, setIsFooterVisible] = useState(false);

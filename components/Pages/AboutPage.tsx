@@ -188,7 +188,7 @@ const AboutPage: React.FC = () => {
                 title="Hakkımızda | Kurumsal Bilgiler - Şensoy Elektrik"
                 description="2014'ten beri elektrik taahhüt ve mühendislik. YG, OG, AG ve ZA sistemlerinde 10+ yıl deneyim. Sertifikalı uzman ekip, kaliteli hizmet."
                 keywords="hakkımızda, şensoy elektrik, kurumsal bilgi, elektrik taahhüt deneyim, sertifikalı ekip, kalite belgesi, mühendislik"
-                url="https://www.sensoyelektrik.com/about"
+                url="https://sensoyelektrik.com.tr/about"
                 type="website"
             />
             <main id="main-content" ref={containerRef} className="w-full bg-transparent min-h-screen pt-24 overflow-x-hidden" role="main">

@@ -59,9 +59,9 @@ const Services: React.FC = () => {
   ];
 
   return (
-    <section className="bg-white/40 backdrop-blur-md py-24 md:py-48 px-6">
+    <section className="bg-white/40 backdrop-blur-md py-16 md:py-32 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-24">
+        <div className="mb-16">
           <h2 className="text-[5vw] leading-none font-medium tracking-tighter text-[#1D1D1F]">
             AKILLI<br />DAĞITIM SİSTEMLERİ.
           </h2>

@@ -59,11 +59,11 @@ const GlobalImpact: React.FC = () => {
   ].filter(Boolean) as ServiceItem[];
 
   return (
-    <section className="relative w-full bg-white/40 backdrop-blur-md py-24 md:py-48 px-6">
+    <section className="relative w-full bg-white/40 backdrop-blur-md py-16 md:py-32 px-6">
       <div className="max-w-7xl mx-auto">
 
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-24 border-b border-black/5 pb-12">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-black/5 pb-8">
           <div className="max-w-2xl">
             <span className="text-[#2997FF] font-bold tracking-widest uppercase text-xs mb-4 block">03 — Etki</span>
             <h2 className="text-4xl md:text-6xl font-medium tracking-tighter text-[#1D1D1F] leading-[0.95]">
@@ -76,7 +76,7 @@ const GlobalImpact: React.FC = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8 mb-32">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8 mb-20">
           <StatCard
             label="Kuruluş Yılı"
             value="2014"

@@ -9,6 +9,7 @@ import { AppState } from '../../types';
 import Scene from '../Three/Scene';
 import ScrollManager from '../Utils/ScrollManager';
 import WhatsAppButton from '../UI/WhatsAppButton';
+import CookieBanner from '../UI/CookieBanner';
 
 const Layout: React.FC = () => {
     const [appState, setAppState] = useState<AppState>(AppState.IGNITION);
@@ -60,7 +61,10 @@ const Layout: React.FC = () => {
 
             {/* Global HUD Widgets - Only visible when app is running */}
             {appState === AppState.RUNNING && (
-                <WhatsAppButton />
+                <>
+                    <WhatsAppButton />
+                    <CookieBanner />
+                </>
             )}
 
             <div className={`min-h-screen relative w-full overflow-x-hidden flex flex-col justify-between ${appState === AppState.IGNITION ? 'bg-black' : 'bg-[#F5F5F7] text-[#1D1D1F]'}`}>

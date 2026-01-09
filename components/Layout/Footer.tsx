@@ -81,9 +81,8 @@ const Footer: React.FC = () => {
       items: [
         { label: "Hakkımızda", path: "/about" },
         { label: "Vizyon & Misyon", path: "/about" },
-        { label: "Kariyer", path: "/about" },
-        { label: "Yönetim", path: "/about" },
         { label: "Referanslar", path: "/projects" },
+        { label: "SSS", path: "/sss" },
       ]
     },
     {
@@ -91,9 +90,7 @@ const Footer: React.FC = () => {
       items: [
         { label: "Bize Ulaşın", path: "/contact" },
         { label: "Teklif Talep", path: "/contact" },
-        { label: "Instagram", path: "https://instagram.com" },
-        { label: "LinkedIn", path: "https://linkedin.com" },
-        { label: "E-Posta", path: "mailto:info@sensoyelektrik.com" },
+        { label: "E-Posta", path: "mailto:info@sensoyelektrik.com.tr" },
       ]
     }
   ];
@@ -118,11 +115,54 @@ const Footer: React.FC = () => {
           {/* Branding Area */}
           <div className="lg:col-span-4 p-8 md:p-12 lg:border-r border-white/10 flex flex-col justify-between min-h-[300px]">
             <div>
-              <div className="flex items-center gap-3 mb-6">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                  <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span className="text-xl font-bold tracking-tighter">ŞENSOY ELEKTRİK</span>
+              <div className="flex flex-col items-start mb-6 select-none">
+                <div className="flex items-center gap-[1px]">
+                  {/* Ş Harfi */}
+                  <svg height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
+                    <text x="0" y="20" fontFamily="'Inter', sans-serif" fontWeight="900" fontSize="24" fill="#FFFFFF" letterSpacing="-1.2">Ş</text>
+                  </svg>
+                  
+                  {/* E Harfi */}
+                  <svg height="24" viewBox="0 0 17 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
+                    <text x="0" y="20" fontFamily="'Inter', sans-serif" fontWeight="900" fontSize="24" fill="#FFFFFF" letterSpacing="-1.2">E</text>
+                  </svg>
+                  
+                  {/* N Harfi */}
+                  <svg height="24" viewBox="0 0 19 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
+                    <text x="0" y="20" fontFamily="'Inter', sans-serif" fontWeight="900" fontSize="24" fill="#FFFFFF" letterSpacing="-1.2">N</text>
+                  </svg>
+                  
+                  {/* S Harfi */}
+                  <svg height="24" viewBox="0 0 17 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
+                    <text x="0" y="20" fontFamily="'Inter', sans-serif" fontWeight="900" fontSize="24" fill="#FFFFFF" letterSpacing="-1.2">S</text>
+                  </svg>
+                  
+                  {/* O Harfi - İçinde Sarı Daire */}
+                  <div className="relative w-[19px] h-[19px] mx-[1px] flex items-center justify-center">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                      <circle cx="12" cy="12" r="9" fill="none" stroke="#FFFFFF" strokeWidth="3.5" />
+                      <circle cx="12" cy="12" r="5" fill="#FFC20E" />
+                    </svg>
+                  </div>
+                  
+                  {/* Y Harfi */}
+                  <svg height="24" viewBox="0 0 17 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
+                    <text x="0" y="20" fontFamily="'Inter', sans-serif" fontWeight="900" fontSize="24" fill="#FFFFFF" letterSpacing="-1.2">Y</text>
+                  </svg>
+                </div>
+                
+                {/* Alt Yazı: ELEKTRIK */}
+                <div className="flex justify-between mt-[2px]" style={{ width: '120px' }}>
+                  {['E','L','E','K','T','R','İ','K'].map((char, i) => (
+                    <span
+                      key={i}
+                      className="text-[8px] font-bold text-white/80"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                      {char}
+                    </span>
+                  ))}
+                </div>
               </div>
               <p className="text-gray-400 leading-relaxed text-sm max-w-sm">
                 Geleceğin enerji altyapısını inşa ediyoruz. Yüksek gerilimden zayıf akıma, endüstriyel tesislerden akıllı binalara kadar uçtan uca mühendislik çözümleri.
@@ -130,7 +170,7 @@ const Footer: React.FC = () => {
             </div>
             <div className="mt-12">
               <span className="font-mono text-[10px] text-[#2997FF] tracking-widest uppercase block mb-2">MERKEZ OFİS</span>
-              <p className="text-sm font-mono text-gray-500">Halide Edip Adıvar Cad. No:105/A<br />Şişli / İSTANBUL, Türkiye</p>
+              <p className="text-sm font-mono text-gray-500">H. Edip Adıvar, Halide Edip Adıvar Cd. No:111<br />34382 Şişli / İSTANBUL, Türkiye</p>
             </div>
           </div>
 
@@ -184,7 +224,7 @@ const Footer: React.FC = () => {
           {/* Copyright */}
           <div className="lg:col-span-4 p-6 lg:border-r border-white/10 flex flex-col justify-center">
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] font-mono text-gray-600 uppercase">© 2024 Şensoy Elektrik Müh. İnş. Taah.</span>
+              <span className="text-[10px] font-mono text-gray-600 uppercase">© 2014-2026 Şensoy Elektrik Müh. İnş. Taah.</span>
               <span className="text-[10px] font-mono text-gray-700 uppercase">Tüm sistemler aktif. Güvenli bağlantı.</span>
             </div>
           </div>
@@ -209,6 +249,23 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
+        </div>
+
+        {/* ROW 4: DEVELOPER CREDIT - CENTERED */}
+        <div className="border-t border-white/10">
+          <div className="p-4 text-center">
+            <span className="text-[10px] text-gray-600">
+              Designed & Developed by{' '}
+              <a
+                href="https://futurewavee.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-[#2997FF] transition-colors font-medium"
+              >
+                FutureWave
+              </a>
+            </span>
+          </div>
         </div>
 
       </div>
