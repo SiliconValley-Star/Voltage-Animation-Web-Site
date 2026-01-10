@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { SERVICES_DATA } from './servicesData';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useUIStore } from '../../store/useUIStore';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,6 +11,7 @@ const ServiceDetailPage: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
     const navigate = useNavigate();
     const containerRef = useRef<HTMLDivElement>(null);
+    const setServicesState = useUIStore((state) => state.setServicesState);
 
     const service = SERVICES_DATA.find(s => s.slug === slug);
 
@@ -67,9 +69,14 @@ const ServiceDetailPage: React.FC = () => {
     return (
         <div ref={containerRef} className="bg-[#050505] min-h-screen text-white pt-32 pb-20 relative">
             {/* CLOSE BUTTON (As Back Navigation) */}
-            {/* CLOSE BUTTON (As Back Navigation) */}
             <button
-                onClick={() => navigate(-1)}
+                onClick={() => {
+                    setServicesState({
+                        scrollY: 0,
+                        isHydrated: true
+                    });
+                    navigate(-1);
+                }}
                 className="fixed top-28 right-4 sm:top-32 sm:right-8 z-[1000] w-10 h-10 sm:w-12 sm:h-12 border border-white/20 rounded-full flex items-center justify-center bg-black/50 backdrop-blur-md hover:bg-white hover:text-black transition-all group"
             >
                 <span className="group-hover:rotate-90 transition-transform duration-300 text-base sm:text-lg">✕</span>
@@ -183,6 +190,20 @@ const ServiceDetailPage: React.FC = () => {
                     İletişime Geçin
                 </a>
             </section>
+
+            {/* FOOTER NAV */}
+            <div className="border-t border-white/10 bg-black py-8 px-6 md:px-12 flex justify-between items-center">
+                <button
+                    onClick={() => {
+                        setServicesState({ isHydrated: true });
+                        navigate('/services');
+                    }}
+                    className="text-gray-500 hover:text-white text-xs font-bold tracking-widest uppercase transition-colors flex items-center gap-2"
+                >
+                    <span>←</span><span className="hidden sm:inline"> Tüm Hizmetler</span>
+                </button>
+            </div>
+
         </div>
     );
 };

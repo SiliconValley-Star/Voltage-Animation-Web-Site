@@ -2,11 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { PROJECTS } from './projectsData';
+import { useUIStore } from '../../store/useUIStore';
 
 const ProjectDetailPage: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
     const navigate = useNavigate();
     const containerRef = useRef<HTMLDivElement>(null);
+    const setProjectsState = useUIStore((state) => state.setProjectsState);
 
     // Sluga göre projeyi bul veya ilk projeyi göster (hata önlemek için)
     const project = PROJECTS.find(p => p.slug === slug);
@@ -51,9 +53,15 @@ const ProjectDetailPage: React.FC = () => {
     return (
         <div ref={containerRef} className="w-full bg-[#050505] min-h-screen relative z-[999] text-white animate-in fade-in duration-700 font-sans top-0 left-0">
 
-            {/* CLOSE BUTTON (As Back Navigation) - Updated Top Position */}
+            {/* CLOSE BUTTON (As Back Navigation) */}
             <button
-                onClick={() => navigate(-1)}
+                onClick={() => {
+                    setProjectsState({
+                        scrollY: 0,
+                        isHydrated: true
+                    });
+                    navigate(-1);
+                }}
                 className="fixed top-32 right-4 sm:top-28 sm:right-8 z-[1000] w-10 h-10 sm:w-12 sm:h-12 border border-white/20 rounded-full flex items-center justify-center bg-black/50 backdrop-blur-md hover:bg-white hover:text-black transition-all group"
             >
                 <span className="group-hover:rotate-90 transition-transform duration-300 text-base sm:text-lg">✕</span>
@@ -211,7 +219,13 @@ const ProjectDetailPage: React.FC = () => {
 
             {/* FOOTER NAV */}
             <div className="border-t border-white/10 bg-black py-8 px-6 md:px-12 flex justify-between items-center">
-                <button onClick={() => navigate('/projects')} className="text-gray-500 hover:text-white text-xs font-bold tracking-widest uppercase transition-colors flex items-center gap-2">
+                <button
+                    onClick={() => {
+                        setProjectsState({ isHydrated: true });
+                        navigate('/projects');
+                    }}
+                    className="text-gray-500 hover:text-white text-xs font-bold tracking-widest uppercase transition-colors flex items-center gap-2"
+                >
                     <span>←</span><span className="hidden sm:inline"> Tüm Projeler</span>
                 </button>
                 {nextProject && (
