@@ -1,5 +1,6 @@
-import React, { useRef, useMemo, useCallback } from 'react';
+import React, { useRef, useMemo, useCallback, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
+import { useDetectGPU } from '@react-three/drei';
 import * as THREE from 'three';
 import { COLORS } from '../../constants';
 
@@ -40,11 +41,18 @@ const cableFragmentShader = `
 
 interface CableSystemProps {
   isMobile: boolean;
+  isBackground?: boolean;
 }
 
-const CableSystem: React.FC<CableSystemProps> = ({ isMobile }) => {
+const CableSystem: React.FC<CableSystemProps> = ({ isMobile, isBackground = false }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
+  
+  // GPU Tier Detection for segment optimization
+  const GPUTier = useDetectGPU();
+  const isLowEndGPU = useMemo(() => {
+    return GPUTier.tier !== undefined && GPUTier.tier <= 1;
+  }, [GPUTier.tier]);
 
   // Create a curve that simulates the cable dropping down to footer
   const curve = useMemo(() => {
@@ -81,9 +89,14 @@ const CableSystem: React.FC<CableSystemProps> = ({ isMobile }) => {
     );
   }, [isMobile]);
 
-  // Memoized values for performance - optimized for Retina displays
-  // Thicker cable on mobile to compensate for perspective changes during scroll
-  const tubularSegments = useMemo(() => isMobile ? 256 : 512, [isMobile]);
+  // Memoized values for performance - OPTIMIZED segment counts
+  // LOW-END GPU or MOBILE: 128 segments (maximum performance)
+  // DESKTOP with GOOD GPU: 256 segments (was 512, reduced by 50% for stability)
+  const tubularSegments = useMemo(() => {
+    if (isLowEndGPU || isMobile) return 128;
+    return 256;
+  }, [isLowEndGPU, isMobile]);
+  
   const radius = useMemo(() => isMobile ? 0.11 : 0.12, [isMobile]);
   const radialSegments = useMemo(() => isMobile ? 3 : 6, [isMobile]);
 
@@ -101,6 +114,27 @@ const CableSystem: React.FC<CableSystemProps> = ({ isMobile }) => {
   }, []);
 
   useFrame(updateTime);
+  
+  // CRITICAL: Memory Leak Prevention - Dispose all Three.js resources
+  useEffect(() => {
+    return () => {
+      // Dispose geometry
+      if (meshRef.current?.geometry) {
+        meshRef.current.geometry.dispose();
+      }
+      
+      // Dispose shader material and uniforms
+      if (materialRef.current) {
+        materialRef.current.dispose();
+        // Dispose uniform textures if any
+        Object.values(materialRef.current.uniforms).forEach((uniform: any) => {
+          if (uniform.value && uniform.value.dispose) {
+            uniform.value.dispose();
+          }
+        });
+      }
+    };
+  }, []);
 
   return (
     <mesh
