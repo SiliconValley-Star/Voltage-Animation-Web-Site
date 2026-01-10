@@ -133,6 +133,7 @@ const GridProjectCard: React.FC<{ project: Project; index: number }> = ({ projec
 
 const ProjectsPage: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const isMountedRef = useRef(true);
     
     // Store'dan state al
     const projectsState = useUIStore((state) => state.projects);
@@ -218,13 +219,24 @@ const ProjectsPage: React.FC = () => {
         return () => ctx.revert();
     }, [projectsState.isHydrated]);
     
-    // State'i kaydet - Component unmount olduğunda
+    // Component mount durumunu takip et
+    useEffect(() => {
+        isMountedRef.current = true;
+        return () => {
+            isMountedRef.current = false;
+        };
+    }, []);
+    
+    // State'i kaydet - Component unmount olduğunda (RACE CONDITION FIX)
     useEffect(() => {
         return () => {
-            setProjectsState({
-                scrollY: window.scrollY,
-                isHydrated: true
-            });
+            // Only save state if component is still mounted to prevent race conditions
+            if (isMountedRef.current) {
+                setProjectsState({
+                    scrollY: window.scrollY,
+                    isHydrated: true
+                });
+            }
         };
     }, [setProjectsState]);
 

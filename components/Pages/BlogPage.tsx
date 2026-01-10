@@ -114,6 +114,7 @@ const ArticleRow: React.FC<{ article: Article; index: number; total: number }> =
 
 const BlogPage: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const isMountedRef = useRef(true);
     
     // Store'dan state al ve restore et
     const blogState = useUIStore((state) => state.blog);
@@ -216,15 +217,26 @@ const BlogPage: React.FC = () => {
         return () => ctx.revert();
     }, [activeCategory, filteredArticles.length, blogState.isHydrated]);
     
-    // State'i kaydet - Component unmount olduğunda veya filter değiştiğinde
+    // Component mount durumunu takip et
+    useEffect(() => {
+        isMountedRef.current = true;
+        return () => {
+            isMountedRef.current = false;
+        };
+    }, []);
+    
+    // State'i kaydet - Component unmount olduğunda (RACE CONDITION FIX)
     useEffect(() => {
         return () => {
-            setBlogState({
-                scrollY: window.scrollY,
-                activeCategory: activeCategory,
-                searchQuery: searchQuery,
-                isHydrated: true
-            });
+            // Only save state if component is still mounted to prevent race conditions
+            if (isMountedRef.current) {
+                setBlogState({
+                    scrollY: window.scrollY,
+                    activeCategory: activeCategory,
+                    searchQuery: searchQuery,
+                    isHydrated: true
+                });
+            }
         };
     }, [activeCategory, searchQuery, setBlogState]);
 
