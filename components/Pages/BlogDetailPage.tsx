@@ -38,7 +38,7 @@ const BlogDetailPage: React.FC = () => {
         }, containerRef);
 
         return () => ctx.revert();
-    }, [article]);
+    }, [slug, article]);
 
     if (!article) {
         return (
@@ -73,7 +73,13 @@ const BlogDetailPage: React.FC = () => {
 
             {/* HEADER HERO */}
             <div className="relative w-full h-screen">
-                <img src={article.image} className="w-full h-full object-cover opacity-60" alt={article.title} />
+                <img
+                    src={article.image}
+                    className="w-full h-full object-cover opacity-60"
+                    alt={article.title}
+                    loading="eager"
+                    decoding="async"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent"></div>
 
                 {/* Tech Grid Overlay */}
@@ -178,7 +184,13 @@ const BlogDetailPage: React.FC = () => {
 
             {/* FULL WIDTH IMAGE PARALLAX */}
             <div className="w-full h-[50vh] md:h-[70vh] overflow-hidden relative">
-                <div className="absolute inset-0 bg-fixed bg-cover bg-center" style={{ backgroundImage: `url(${article.image})` }}></div>
+                <img
+                    src={article.image}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                />
                 <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
                     <span className="text-[15vw] font-bold text-white/5 tracking-tighter select-none">ŞENSOY</span>
