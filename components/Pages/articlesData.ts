@@ -39,7 +39,7 @@ export const ARTICLES: Article[] = [
         author: "Murat Şensoy",
         readTime: "8 DK",
         featured: true,
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2070",
+        image: "/images/blog/blog-001.jpg",
         content: "Trafo merkezleri, elektrik dağıtım sistemlerinin kalbidir. Düzenli bakım ve kontroller yapılmadığında ciddi arızalar ve enerji kesintileri yaşanabilir.",
         detailedContent: {
             sections: [
@@ -60,7 +60,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Yüksek gerilim sistemlerinde çalışırken alınması gereken güvenlik önlemleri ve iş kazalarını önleme yöntemleri hakkında kapsamlı rehber.",
         author: "Ali Demir",
         readTime: "10 DK",
-        image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?q=80&w=2069",
+        image: "/images/blog/blog-002.jpg",
         content: "Yüksek gerilim sistemlerinde çalışmak, ciddi riskler taşır. Doğru güvenlik prosedürlerinin uygulanması hayati önem taşımaktadır.",
         detailedContent: {
             sections: [
@@ -81,7 +81,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Günümüz alçak gerilim pano tasarımlarında kullanılan yeni teknolojiler, akıllı koruma sistemleri ve modüler yapılar hakkında detaylı inceleme.",
         author: "Ahmet Yılmaz",
         readTime: "7 DK",
-        image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=2070",
+        image: "/images/blog/blog-003.jpg",
         content: "Alçak gerilim panoları, binalardaki elektrik dağıtımının temel taşlarıdır. Modern tasarım yaklaşımları ile daha güvenli ve verimli sistemler oluşturulabilir.",
         detailedContent: {
             sections: [
@@ -102,7 +102,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Fabrikalarda ve endüstriyel tesislerde enerji maliyetlerini düşürmenin yolları, kompanzasyon sistemleri ve akıllı enerji yönetimi.",
         author: "Zeynep Kaya",
         readTime: "9 DK",
-        image: "https://images.unsplash.com/photo-1513828583688-c52646db42da?q=80&w=2070",
+        image: "/images/blog/blog-004.jpg",
         content: "Endüstriyel tesislerde enerji verimliliği, hem maliyetleri düşürür hem de çevresel etkiyi azaltır. Kompanzasyon ve otomasyon sistemleri bu süreçte kritik rol oynar.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -115,7 +115,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Doğru topraklama sistemi tasarımı ve uygulaması, elektrik güvenliğinin temel taşıdır. Topraklama çeşitleri ve hesaplama yöntemleri.",
         author: "Murat Şensoy",
         readTime: "11 DK",
-        image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=2070",
+        image: "/images/blog/blog-005.jpg",
         content: "Topraklama sistemi, elektrik tesisatlarında güvenliğin temelini oluşturur. Yetersiz topraklama, elektrik çarpması ve yangın riskini artırır.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -128,7 +128,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Paratoner sistemlerinin doğru tasarımı ve kurulumu, binalarınızı yıldırım hasarından korumanın en etkili yoludur.",
         author: "Ali Demir",
         readTime: "8 DK",
-        image: "https://images.unsplash.com/photo-1594156596782-656c93e4d504?q=80&w=2070",
+        image: "/images/blog/blog-006.jpg",
         content: "Yıldırımdan korunma sistemleri, binalarda ve tesislerde ciddi hasarlara yol açabilecek yıldırım düşmelerinden koruma sağlar.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -141,7 +141,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Dizel ve gaz jeneratörleri arasındaki farklar, kapasite hesaplaması ve otomatik transfer panosu entegrasyonu.",
         author: "Ahmet Yılmaz",
         readTime: "9 DK",
-        image: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?q=80&w=2071",
+        image: "/images/blog/blog-007.jpg",
         content: "Jeneratör sistemleri, kesintisiz enerji gerektiren tesisler için vazgeçilmezdir. Doğru kapasite ve tip seçimi kritik öneme sahiptir.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -154,7 +154,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Kesintisiz güç kaynağı sistemleri, veri merkezlerindeki kritik ekipmanları korumak için hayati öneme sahiptir. Online ve offline UPS karşılaştırması.",
         author: "Zeynep Kaya",
         readTime: "7 DK",
-        image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034",
+        image: "/images/blog/blog-008.jpg",
         content: "Veri merkezleri için UPS sistemleri, ani güç kesintilerinde bile kritik sistemlerin çalışmaya devam etmesini sağlar.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -167,7 +167,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Akıllı bina yönetim sistemleri, enerji verimliliği, konfor ve güvenliği tek bir platformda birleştirir. BMS'in avantajları ve uygulama alanları.",
         author: "Murat Şensoy",
         readTime: "10 DK",
-        image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069",
+        image: "/images/blog/blog-009.jpg",
         content: "Bina Otomasyon Sistemleri (BMS), modern binaların tüm mekanik ve elektrik sistemlerini entegre olarak yönetir.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -180,7 +180,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Yangın algılama ve ihbar sistemlerinin doğru kurulumu, can ve mal güvenliği için kritik öneme sahiptir. Adresli ve konvansiyonel sistemler.",
         author: "Ali Demir",
         readTime: "8 DK",
-        image: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=2070",
+        image: "/images/blog/blog-010.jpg",
         content: "Yangın ihbar sistemleri, yangın başlangıcında erken uyarı sağlayarak tahliye süresini maksimize eder ve can kaybını önler.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -193,7 +193,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Kapalı devre televizyon sistemlerinin enerji gereksinimi, PoE teknolojisi ve kesintisiz kayıt için yedekleme çözümleri.",
         author: "Ahmet Yılmaz",
         readTime: "6 DK",
-        image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=2096",
+        image: "/images/blog/blog-011.jpg",
         content: "CCTV sistemleri, güvenlik altyapısının önemli bir parçasıdır. Doğru enerji planlaması, kesintisiz izleme için şarttır.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -206,7 +206,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Modern kartlı geçiş sistemleri, bina güvenliğini artırırken personel hareketlerinin takibini de kolaylaştırır.",
         author: "Zeynep Kaya",
         readTime: "5 DK",
-        image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1740",
+        image: "/images/blog/blog-012.jpg",
         content: "Kartlı geçiş sistemleri, yetkili personel erişimini kontrol ederek güvenlik seviyesini artırır.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -219,7 +219,7 @@ export const ARTICLES: Article[] = [
         excerpt: "LED teknolojisine geçiş, enerji maliyetlerini %70'e kadar düşürebilir. Endüstriyel ve ticari aydınlatma çözümleri.",
         author: "Murat Şensoy",
         readTime: "6 DK",
-        image: "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?q=80&w=2035",
+        image: "/images/blog/blog-013.jpg",
         content: "LED aydınlatma sistemleri, enerji verimliliği ve uzun ömür açısından geleneksel aydınlatmaya göre büyük avantajlar sunar.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -232,7 +232,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Reaktif güç kompanzasyonu, enerji faturalarını düşürmenin ve şebeke kalitesini artırmanın en etkili yollarından biridir.",
         author: "Ali Demir",
         readTime: "9 DK",
-        image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=2070",
+        image: "/images/blog/blog-014.jpg",
         content: "Kompanzasyon sistemleri, endüstriyel tesislerde enerji verimliliğini artırır ve ceza maliyetlerinden kaçınmayı sağlar.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -245,7 +245,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Yatırım öncesi detaylı fizibilite çalışması, projelerin başarısını doğrudan etkiler. Ön etüt süreçleri ve maliyet analizi.",
         author: "Murat Şensoy",
         readTime: "7 DK",
-        image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070",
+        image: "/images/blog/blog-015.jpg",
         content: "Elektrik projelerinde fizibilite çalışması, yatırımın risklerini minimize eder ve başarı şansını artırır.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -258,7 +258,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Endüstriyel elektrik tesisatı kurulumunda uyulması gereken ulusal ve uluslararası standartlar hakkında kapsamlı rehber.",
         author: "Ahmet Yılmaz",
         readTime: "10 DK",
-        image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=2070",
+        image: "/images/blog/blog-016.jpg",
         content: "Sanayi tesislerinde elektrik standartlarına uygunluk, hem güvenlik hem de işletme verimliliği açısından kritik öneme sahiptir.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -271,7 +271,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Smart Grid teknolojileri, enerji dağıtımını daha verimli ve güvenilir hale getiriyor. Türkiye'deki akıllı şebeke projeleri.",
         author: "Zeynep Kaya",
         readTime: "11 DK",
-        image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=2070",
+        image: "/images/blog/blog-017.jpg",
         content: "Akıllı şebekeler, yenilenebilir enerji kaynaklarının entegrasyonunu kolaylaştırır ve şebeke kayıplarını minimize eder.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -284,7 +284,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Sağlık tesislerinde kesintisiz enerji, hayat kurtarıcı ekipmanların çalışması için zorunludur. Medikal tesisatlarda özel tasarım gereksinimleri.",
         author: "Murat Şensoy",
         readTime: "12 DK",
-        image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053",
+        image: "/images/blog/blog-018.jpg",
         content: "Hastanelerde elektrik sistemleri, kritik yaşam destek ünitelerinin kesintisiz çalışması için özel tasarım gerektirir.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -297,7 +297,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Otellerde enerji yönetimi, konuk konforu ve işletme maliyetleri arasındaki dengeyi sağlamak için özel çözümler gerektirir.",
         author: "Ali Demir",
         readTime: "8 DK",
-        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070",
+        image: "/images/blog/blog-019.jpg",
         content: "Otel projelerinde elektrik sistemleri, hem estetik hem de fonksiyonellik açısından özen gerektiren özel tasarım süreçleridir.",
         detailedContent: getDefaultDetailedContent()
     },
@@ -310,7 +310,7 @@ export const ARTICLES: Article[] = [
         excerpt: "Projeleriniz için doğru elektrik taahhüt firmasını seçmek, projenin başarısını doğrudan etkiler. Değerlendirme kriterleri ve öneriler.",
         author: "Murat Şensoy",
         readTime: "6 DK",
-        image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2076",
+        image: "/images/blog/blog-020.jpg",
         content: "Elektrik taahhüt firması seçimi, deneyim, referanslar, teknik yetkinlik ve mali güç gibi kriterlere göre yapılmalıdır.",
         detailedContent: getDefaultDetailedContent()
     }
