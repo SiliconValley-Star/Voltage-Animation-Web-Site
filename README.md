@@ -1,20 +1,35 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# ⚡ Voltage - Animasyonlu Web Sitesi
 
-# Run and deploy your AI Studio app
+Modern ve yüksek performanslı elektrik mühendisliği şirketi web sitesi. React Three Fiber ile 3D animasyonlar ve Zustand ile akıllı state yönetimi.
 
-This contains everything you need to run your app locally.
+## 🚀 Özellikler
 
-View your app in AI Studio: https://ai.studio/apps/drive/132mK9t_JmDRfgwTSBLab3Ph9FJfa-RtM
+- ⚡ React Three Fiber ile 3D animasyonlar
+- 🎨 GSAP ile akıcı geçişler
+- 📱 Tam responsive tasarım
+- 🔄 Zustand ile global state yönetimi
+- 🎯 Native app hissiyatı (scroll restoration, smart animations)
+- ⚙️ Optimized performance (code splitting, lazy loading)
 
-## Run Locally
+## 🛠️ Kurulum
 
-**Prerequisites:**  Node.js
+```bash
+npm install
+npm run dev
+```
 
+## 📦 Production Build
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+npm run build
+```
+
+## 🌐 Teknolojiler
+
+- React + TypeScript
+- Vite
+- React Three Fiber
+- GSAP
+- Zustand
+- React Router
+- Tailwind CSS
