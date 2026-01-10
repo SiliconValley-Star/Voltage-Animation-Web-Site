@@ -54,8 +54,10 @@ const Transformer: React.FC<TransformerProps> = ({ isMobile }) => {
       // Oscillate on Z axis based on scroll - keep the same effect
       groupRef.current.rotation.z = Math.sin(time * 0.5) * 0.05 + (scrollInfluence * 0.2 * Math.sin(time * 5));
 
-      // Move slightly up/down based on scroll - keep the same movement
-      groupRef.current.position.y = scrollInfluence * -0.5;
+      // Mobile: NO position movement - stays fixed vertically like an image
+      // Desktop: Dynamic scroll movement for immersive effect
+      const scrollPositionY = isMobile ? 0 : scrollInfluence * -0.5;
+      groupRef.current.position.y = scrollPositionY;
     }
 
     // Spark flicker logic tied to scroll energy - optimized
@@ -91,9 +93,20 @@ const Transformer: React.FC<TransformerProps> = ({ isMobile }) => {
 
   useFrame(animate);
 
-  return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-      <group ref={groupRef} scale={0.9}>
+  // Same scale on all devices - static positioning prevents size perception issues
+  const baseScale = 0.9;
+  
+  // Float config for desktop only - mobile stays completely static
+  const floatConfig = {
+    speed: 2,
+    rotationIntensity: 0.5,
+    floatIntensity: 0.5
+  };
+
+  // Mobile: NO Float wrapper - object stays fixed except for rotation
+  // Desktop: Float wrapper for subtle organic movement
+  const TransformerGroup = (
+    <group ref={groupRef} scale={baseScale}>
         {/* Outer Glass Casing */}
         <mesh>
           <cylinderGeometry args={[1.5, 1.5, 3.5, geometryConfig.cylinder.radialSegments, geometryConfig.cylinder.heightSegments, false]} />
@@ -170,8 +183,9 @@ const Transformer: React.FC<TransformerProps> = ({ isMobile }) => {
           <meshStandardMaterial color="#A0826D" roughness={0.5} metalness={0.5} />
         </mesh>
       </group>
-    </Float>
   );
+
+  return isMobile ? TransformerGroup : <Float {...floatConfig}>{TransformerGroup}</Float>;
 };
 
 export default Transformer;

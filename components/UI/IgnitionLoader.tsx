@@ -144,7 +144,7 @@ const IgnitionLoader: React.FC<IgnitionLoaderProps> = ({ onComplete }) => {
   if (!active) return null;
 
   return (
-    <div ref={containerRef} className="fixed inset-0 z-50 bg-black flex items-center justify-center">
+    <div ref={containerRef} className="fixed inset-0 h-[100svh] z-50 bg-black flex items-center justify-center">
       {/* 3D Scene */}
       <div className="absolute inset-0 z-0">
         <Canvas

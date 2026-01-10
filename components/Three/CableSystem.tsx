@@ -38,14 +38,13 @@ const cableFragmentShader = `
   }
 `;
 
-const CableSystem: React.FC = () => {
+interface CableSystemProps {
+  isMobile: boolean;
+}
+
+const CableSystem: React.FC<CableSystemProps> = ({ isMobile }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
-
-  const { viewport } = useThree();
-  
-  // Memoize mobile check to prevent recalculation on every render
-  const isMobile = useMemo(() => viewport.width < 5, [viewport.width]);
 
   // Create a curve that simulates the cable dropping down to footer
   const curve = useMemo(() => {
@@ -83,8 +82,9 @@ const CableSystem: React.FC = () => {
   }, [isMobile]);
 
   // Memoized values for performance - optimized for Retina displays
+  // Thicker cable on mobile to compensate for perspective changes during scroll
   const tubularSegments = useMemo(() => isMobile ? 256 : 512, [isMobile]);
-  const radius = useMemo(() => isMobile ? 0.08 : 0.12, [isMobile]);
+  const radius = useMemo(() => isMobile ? 0.11 : 0.12, [isMobile]);
   const radialSegments = useMemo(() => isMobile ? 3 : 6, [isMobile]);
 
   const uniforms = useMemo(() => ({

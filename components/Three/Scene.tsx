@@ -18,10 +18,16 @@ const Scene: React.FC = () => {
     return [1, maxDpr] as [number, number];
   }, [isMobile]);
 
+  // Responsive camera configuration - wider FOV on mobile for better depth perception
+  const cameraConfig = useMemo(() => ({
+    position: [0, 0, 8] as [number, number, number],
+    fov: isMobile ? 45 : 35
+  }), [isMobile]);
+
   return (
-    <div className="fixed inset-0 w-full h-full pointer-events-none z-0">
+    <div className="fixed inset-0 w-full h-[100svh] pointer-events-none z-0">
       <Canvas
-        camera={{ position: [0, 0, 8], fov: 35 }}
+        camera={cameraConfig}
         gl={{
           antialias: false,
           alpha: true,
@@ -34,7 +40,7 @@ const Scene: React.FC = () => {
         <AdaptiveDpr pixelated />
         
         {/* Sync Camera with Page Scroll */}
-        <ScrollCamera />
+        <ScrollCamera isMobile={isMobile} />
 
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow={!isMobile} />
@@ -42,7 +48,7 @@ const Scene: React.FC = () => {
 
         <Suspense fallback={null}>
           <Transformer isMobile={isMobile} />
-          <CableSystem />
+          <CableSystem isMobile={isMobile} />
         </Suspense>
 
         {!isMobile && (
