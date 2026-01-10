@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import ReactLenis from '@studio-freight/react-lenis';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
@@ -18,6 +18,23 @@ const Layout: React.FC = () => {
 
     // Check if we're on home page
     const isHomePage = location.pathname === '/';
+    
+    // Detect truly low-power devices (not just mobile)
+    const isLowPowerDevice = useMemo(() => {
+      // Only exclude VERY low-end devices (< 2GB RAM or 2G connection)
+      const isLowRAM = (navigator as any).deviceMemory ? (navigator as any).deviceMemory < 2 : false;
+      const isSlowConnection = (navigator as any).connection
+        ? (navigator as any).connection.effectiveType === 'slow-2g'
+        : false;
+      
+      return isLowRAM || isSlowConnection;
+    }, []);
+    
+    // LIVING BACKGROUND: Show scene on all pages except very low-power devices
+    // Mobile users see living background on all pages (with low DPR for battery)
+    const shouldRenderScene = useMemo(() => {
+      return !isLowPowerDevice;
+    }, [isLowPowerDevice]);
 
     useEffect(() => {
         const body = document.body;
@@ -69,10 +86,12 @@ const Layout: React.FC = () => {
 
             <div className={`min-h-screen relative w-full overflow-x-hidden flex flex-col justify-between ${appState === AppState.IGNITION ? 'bg-black' : 'bg-[#F5F5F7] text-[#1D1D1F]'}`}>
 
-                {/* Global 3D Background - Always visible everywhere */}
-                <div className={`fixed inset-0 z-0 pointer-events-none transition-all duration-1000 ${isHomePage ? 'opacity-100 blur-none' : 'opacity-50 blur-[3px]'}`}>
-                    <Scene />
-                </div>
+                {/* Global 3D Background - Smart rendering based on page and device capability */}
+                {shouldRenderScene && (
+                  <div className={`fixed inset-0 z-0 pointer-events-none transition-all duration-1000 ${isHomePage ? 'opacity-100 blur-none' : 'opacity-50 blur-[3px]'}`}>
+                      <Scene isBackground={!isHomePage} />
+                  </div>
+                )}
 
                 {/* Loading Screen - Only runs once on initial load ideally, but for now kept simple */}
                 <IgnitionLoader onComplete={handleIgnitionComplete} />

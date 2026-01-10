@@ -16,6 +16,7 @@ const ScrollManager: React.FC = () => {
         resizeObserver?: ResizeObserver;
         mutationObserver?: MutationObserver;
         timeoutId?: number;
+        debounceTimerId?: number;
     }>({});
 
     // Save scroll position before leaving the current page
@@ -45,6 +46,11 @@ const ScrollManager: React.FC = () => {
     useEffect(() => {
         if (!lenis) return;
 
+        // CRITICAL: Cancel previous debounce timer (prevents CPU spike on rapid navigation)
+        if (cleanupRef.current.debounceTimerId) {
+            clearTimeout(cleanupRef.current.debounceTimerId);
+        }
+
         // Clear any existing observers/timeouts from previous effect runs
         const cleanup = cleanupRef.current;
         cleanup.resizeObserver?.disconnect();
@@ -53,106 +59,110 @@ const ScrollManager: React.FC = () => {
             clearTimeout(cleanup.timeoutId);
         }
 
-        const key = `scroll-pos-${location.key}`;
+        // 300MS DEBOUNCE: Wait for route to stabilize before starting observers
+        // This prevents multiple observer creation/destruction during rapid navigation
+        cleanupRef.current.debounceTimerId = window.setTimeout(() => {
+            const key = `scroll-pos-${location.key}`;
 
-        // Handle Navigation Types
-        if (navType === 'POP') {
-            const savedScroll = sessionStorage.getItem(key);
-            if (savedScroll) {
-                const targetScroll = parseFloat(savedScroll);
+            // Handle Navigation Types
+            if (navType === 'POP') {
+                const savedScroll = sessionStorage.getItem(key);
+                if (savedScroll) {
+                    const targetScroll = parseFloat(savedScroll);
 
-                // Smart Restoration with proper cleanup
-                const restore = () => {
-                    try {
-                        // Force recalculation of dimensions
-                        lenis.resize();
+                    // Smart Restoration with proper cleanup
+                    const restore = () => {
+                        try {
+                            // Force recalculation of dimensions
+                            lenis.resize();
 
-                        // Check if we can scroll to target
-                        if (lenis.limit >= targetScroll) {
+                            // Check if we can scroll to target
+                            if (lenis.limit >= targetScroll) {
+                                lenis.scrollTo(targetScroll, { immediate: true });
+                                return true; // Success
+                            }
+                            // Attempt to scroll as far as possible anyway
                             lenis.scrollTo(targetScroll, { immediate: true });
-                            return true; // Success
+                            return false; // Clamped
+                        } catch (error) {
+                            console.warn('Scroll restoration failed:', error);
+                            return true; // Treat as success to avoid infinite retry
                         }
-                        // Attempt to scroll as far as possible anyway
-                        lenis.scrollTo(targetScroll, { immediate: true });
-                        return false; // Clamped
-                    } catch (error) {
-                        console.warn('Scroll restoration failed:', error);
-                        return true; // Treat as success to avoid infinite retry
-                    }
-                };
+                    };
 
-                // Initial attempt
-                const success = restore();
+                    // Initial attempt
+                    const success = restore();
 
-                if (!success) {
-                    // We are clamped. Valid height hasn't been reached yet.
-                    // Observe body resize to retry when height grows.
-                    const resizeObserver = new ResizeObserver(() => {
-                        if (restore()) {
-                            // Success - cleanup observer
+                    if (!success) {
+                        // We are clamped. Valid height hasn't been reached yet.
+                        // Observe body resize to retry when height grows.
+                        const resizeObserver = new ResizeObserver(() => {
+                            if (restore()) {
+                                // Success - cleanup observer
+                                resizeObserver.disconnect();
+                                cleanupRef.current.resizeObserver = undefined;
+                            }
+                        });
+
+                        resizeObserver.observe(document.body);
+                        cleanupRef.current.resizeObserver = resizeObserver;
+
+                        // Safety timeout: stop trying after 2 seconds
+                        cleanupRef.current.timeoutId = window.setTimeout(() => {
                             resizeObserver.disconnect();
                             cleanupRef.current.resizeObserver = undefined;
-                        }
-                    });
-
-                    resizeObserver.observe(document.body);
-                    cleanupRef.current.resizeObserver = resizeObserver;
-
-                    // Safety timeout: stop trying after 2 seconds
-                    cleanupRef.current.timeoutId = window.setTimeout(() => {
-                        resizeObserver.disconnect();
-                        cleanupRef.current.resizeObserver = undefined;
-                        cleanupRef.current.timeoutId = undefined;
-                    }, 2000);
-                }
-            }
-        } else {
-            // PUSH or REPLACE
-            if (location.hash) {
-                const target = document.querySelector(location.hash);
-                if (target) {
-                    try {
-                        lenis.scrollTo(target as HTMLElement, { immediate: true });
-                    } catch (error) {
-                        console.warn('Hash scroll failed:', error);
+                            cleanupRef.current.timeoutId = undefined;
+                        }, 2000);
                     }
-                } else {
-                    // Wait for element with proper cleanup
-                    const observer = new MutationObserver(() => {
-                        const t = document.querySelector(location.hash);
-                        if (t) {
-                            try {
-                                lenis.scrollTo(t as HTMLElement, { immediate: true });
-                            } catch (error) {
-                                console.warn('Hash scroll failed:', error);
-                            }
-                            observer.disconnect();
-                            cleanupRef.current.mutationObserver = undefined;
-                        }
-                    });
-                    
-                    observer.observe(document.body, { childList: true, subtree: true });
-                    cleanupRef.current.mutationObserver = observer;
-                    
-                    // Safety timeout for mutation observer
-                    cleanupRef.current.timeoutId = window.setTimeout(() => {
-                        observer.disconnect();
-                        cleanupRef.current.mutationObserver = undefined;
-                        cleanupRef.current.timeoutId = undefined;
-                    }, 1000);
                 }
             } else {
-                try {
-                    lenis.scrollTo(0, { immediate: true });
-                } catch (error) {
-                    console.warn('Scroll to top failed:', error);
+                // PUSH or REPLACE
+                if (location.hash) {
+                    const target = document.querySelector(location.hash);
+                    if (target) {
+                        try {
+                            lenis.scrollTo(target as HTMLElement, { immediate: true });
+                        } catch (error) {
+                            console.warn('Hash scroll failed:', error);
+                        }
+                    } else {
+                        // Wait for element with proper cleanup
+                        const observer = new MutationObserver(() => {
+                            const t = document.querySelector(location.hash);
+                            if (t) {
+                                try {
+                                    lenis.scrollTo(t as HTMLElement, { immediate: true });
+                                } catch (error) {
+                                    console.warn('Hash scroll failed:', error);
+                                }
+                                observer.disconnect();
+                                cleanupRef.current.mutationObserver = undefined;
+                            }
+                        });
+                        
+                        observer.observe(document.body, { childList: true, subtree: true });
+                        cleanupRef.current.mutationObserver = observer;
+                        
+                        // Safety timeout for mutation observer
+                        cleanupRef.current.timeoutId = window.setTimeout(() => {
+                            observer.disconnect();
+                            cleanupRef.current.mutationObserver = undefined;
+                            cleanupRef.current.timeoutId = undefined;
+                        }, 1000);
+                    }
+                } else {
+                    try {
+                        lenis.scrollTo(0, { immediate: true });
+                    } catch (error) {
+                        console.warn('Scroll to top failed:', error);
+                    }
                 }
             }
-        }
 
-        if ('scrollRestoration' in window.history) {
-            window.history.scrollRestoration = 'manual';
-        }
+            if ('scrollRestoration' in window.history) {
+                window.history.scrollRestoration = 'manual';
+            }
+        }, 300); // End of debounce timeout
 
         // Cleanup function for this effect
         return () => {
@@ -161,6 +171,9 @@ const ScrollManager: React.FC = () => {
             cleanup.mutationObserver?.disconnect();
             if (cleanup.timeoutId) {
                 clearTimeout(cleanup.timeoutId);
+            }
+            if (cleanup.debounceTimerId) {
+                clearTimeout(cleanup.debounceTimerId);
             }
             // Reset refs
             cleanupRef.current = {};
