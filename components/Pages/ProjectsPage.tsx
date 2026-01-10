@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef, useMemo, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { PROJECTS as EXISTING_PROJECTS } from './projectsData'; // Import existing data
-import ContactCTA from '../Sections/ContactCTA'; // Standard CTA
+import { PROJECTS as EXISTING_PROJECTS } from './projectsData';
+import ContactCTA from '../Sections/ContactCTA';
+import { useUIStore } from '../../store/useUIStore';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -132,6 +133,11 @@ const GridProjectCard: React.FC<{ project: Project; index: number }> = ({ projec
 
 const ProjectsPage: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    
+    // Store'dan state al
+    const projectsState = useUIStore((state) => state.projects);
+    const setProjectsState = useUIStore((state) => state.setProjectsState);
+    
     const projects = useProjects();
 
     const splitText = (text: string) => {
@@ -140,53 +146,87 @@ const ProjectsPage: React.FC = () => {
         ));
     };
 
-    // Initial page load animations (run once)
+    // Scroll restoration - DOM paint'ten ÖNCE
+    useLayoutEffect(() => {
+        if (projectsState.isHydrated && projectsState.scrollY > 0) {
+            window.scrollTo(0, projectsState.scrollY);
+        }
+    }, []);
+
+    // Smart animations - Sadece ilk ziyarette animasyon oynat
     useEffect(() => {
+        const shouldAnimate = !projectsState.isHydrated;
+        
         const ctx = gsap.context(() => {
             const chars = containerRef.current?.querySelectorAll('.char');
             if (chars && chars.length > 0) {
-                gsap.from(chars, {
-                    yPercent: 120,
-                    stagger: 0.05,
-                    duration: 1.2,
-                    ease: "power4.out",
-                    delay: 0.2
-                });
+                if (shouldAnimate) {
+                    gsap.from(chars, {
+                        yPercent: 120,
+                        stagger: 0.05,
+                        duration: 1.2,
+                        ease: "power4.out",
+                        delay: 0.2
+                    });
+                } else {
+                    gsap.set(chars, { yPercent: 0 });
+                }
             }
             
-            gsap.from(".hero-text", {
-                y: 100,
-                opacity: 0,
-                stagger: 0.1,
-                duration: 1.2,
-                ease: "power4.out",
-                delay: 0.6
-            });
+            if (shouldAnimate) {
+                gsap.from(".hero-text", {
+                    y: 100,
+                    opacity: 0,
+                    stagger: 0.1,
+                    duration: 1.2,
+                    ease: "power4.out",
+                    delay: 0.6
+                });
+            } else {
+                gsap.set(".hero-text", { y: 0, opacity: 1 });
+            }
         }, containerRef);
 
         return () => ctx.revert();
     }, []); // Only run once on mount
 
-    // Project cards scroll animations (optimized)
+    // Project cards animations - Smart animations ile
     useEffect(() => {
+        const shouldAnimate = !projectsState.isHydrated;
+        
         const ctx = gsap.context(() => {
-            // Batch similar animations for better performance
             ScrollTrigger.batch(".project-card-anim", {
                 start: "top 90%",
-                onEnter: batch => gsap.from(batch, {
-                    y: 50,
-                    opacity: 0,
-                    duration: 0.8,
-                    ease: "power2.out",
-                    stagger: 0.15,
-                    overwrite: true
-                }),
-                once: true // Only animate once to save resources on scroll back
+                onEnter: batch => {
+                    if (shouldAnimate) {
+                        gsap.from(batch, {
+                            y: 50,
+                            opacity: 0,
+                            duration: 0.8,
+                            ease: "power2.out",
+                            stagger: 0.15,
+                            overwrite: true
+                        });
+                    } else {
+                        gsap.set(batch, { y: 0, opacity: 1 });
+                    }
+                },
+                once: true
             });
         }, containerRef);
 
         return () => ctx.revert();
-    }, []); // Only set up once
+    }, [projectsState.isHydrated]);
+    
+    // State'i kaydet - Component unmount olduğunda
+    useEffect(() => {
+        return () => {
+            setProjectsState({
+                scrollY: window.scrollY,
+                isHydrated: true
+            });
+        };
+    }, [setProjectsState]);
 
     // Filter Data
     const featuredProject = projects.find(p => p.featured) || projects[0];

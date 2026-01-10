@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
+import { useUIStore } from '../../store/useUIStore';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -113,8 +114,13 @@ const ArticleRow: React.FC<{ article: Article; index: number; total: number }> =
 
 const BlogPage: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const [activeCategory, setActiveCategory] = useState('TÜMÜ');
-    const [searchQuery, setSearchQuery] = useState('');
+    
+    // Store'dan state al ve restore et
+    const blogState = useUIStore((state) => state.blog);
+    const setBlogState = useUIStore((state) => state.setBlogState);
+    
+    const [activeCategory, setActiveCategory] = useState(blogState.activeCategory);
+    const [searchQuery, setSearchQuery] = useState(blogState.searchQuery);
 
     const splitText = (text: string) => {
         return text.split('').map((char, i) => (
@@ -122,62 +128,105 @@ const BlogPage: React.FC = () => {
         ));
     };
 
-    // Calculate filtered data before effects
-    const filteredArticles = ARTICLES.filter(article => {
-        const matchesCategory = activeCategory === 'TÜMÜ' || article.category === activeCategory;
-        const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            article.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch && !article.featured;
-    });
+    // useMemo ile performance optimizasyonu
+    const filteredArticles = useMemo(() => {
+        return ARTICLES.filter(article => {
+            const matchesCategory = activeCategory === 'TÜMÜ' || article.category === activeCategory;
+            const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                article.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+            return matchesCategory && matchesSearch && !article.featured;
+        });
+    }, [activeCategory, searchQuery]);
 
-    const featuredArticle = ARTICLES.find(a => a.featured);
+    const featuredArticle = useMemo(() => ARTICLES.find(a => a.featured), []);
 
-    // Separate effect for initial animations (only run once)
+    // Scroll restoration - DOM paint'ten ÖNCE (useLayoutEffect)
+    useLayoutEffect(() => {
+        if (blogState.isHydrated && blogState.scrollY > 0) {
+            // Geri dönüş - scroll'u anında geri yükle
+            window.scrollTo(0, blogState.scrollY);
+        }
+    }, []);
+
+    // Smart animations - Sadece ilk ziyarette animasyon oynat
     useEffect(() => {
+        const shouldAnimate = !blogState.isHydrated;
+        
         const ctx = gsap.context(() => {
             const chars = containerRef.current?.querySelectorAll('.char');
             if (chars && chars.length > 0) {
-                gsap.from(chars, {
-                    yPercent: 120,
-                    stagger: 0.05,
-                    duration: 1.2,
-                    ease: "power4.out",
-                    delay: 0.2
-                });
+                if (shouldAnimate) {
+                    gsap.from(chars, {
+                        yPercent: 120,
+                        stagger: 0.05,
+                        duration: 1.2,
+                        ease: "power4.out",
+                        delay: 0.2
+                    });
+                } else {
+                    // Animasyonu atla - instant göster
+                    gsap.set(chars, { yPercent: 0 });
+                }
             }
-            gsap.from(".hero-anim", {
-                y: 50,
-                opacity: 0,
-                stagger: 0.1,
-                duration: 1,
-                ease: "power3.out",
-                delay: 0.5
-            });
+            
+            if (shouldAnimate) {
+                gsap.from(".hero-anim", {
+                    y: 50,
+                    opacity: 0,
+                    stagger: 0.1,
+                    duration: 1,
+                    ease: "power3.out",
+                    delay: 0.5
+                });
+            } else {
+                // Animasyonu atla
+                gsap.set(".hero-anim", { y: 0, opacity: 1 });
+            }
         }, containerRef);
         
         return () => ctx.revert();
     }, []); // Only run once on mount
 
-    // Separate effect for article list animations (when content changes)
+    // Article list animations - Smart animations ile
     useEffect(() => {
+        const shouldAnimate = !blogState.isHydrated;
+        
         const ctx = gsap.context(() => {
-            // Use ScrollTrigger.batch for better performance
             ScrollTrigger.batch(".article-row", {
                 start: "top 90%",
-                onEnter: (batch) => gsap.from(batch, {
-                    y: 30,
-                    opacity: 0,
-                    stagger: 0.1,
-                    duration: 0.8,
-                    ease: "power2.out",
-                    overwrite: true
-                }),
-                once: true // Only animate once for better performance
+                onEnter: (batch) => {
+                    if (shouldAnimate) {
+                        gsap.from(batch, {
+                            y: 30,
+                            opacity: 0,
+                            stagger: 0.1,
+                            duration: 0.8,
+                            ease: "power2.out",
+                            overwrite: true
+                        });
+                    } else {
+                        // Animasyonu atla
+                        gsap.set(batch, { y: 0, opacity: 1 });
+                    }
+                },
+                once: true
             });
         }, containerRef);
         
         return () => ctx.revert();
-    }, [activeCategory, filteredArticles.length]); // Only when content actually changes
+    }, [activeCategory, filteredArticles.length, blogState.isHydrated]);
+    
+    // State'i kaydet - Component unmount olduğunda veya filter değiştiğinde
+    useEffect(() => {
+        return () => {
+            setBlogState({
+                scrollY: window.scrollY,
+                activeCategory: activeCategory,
+                searchQuery: searchQuery,
+                isHydrated: true
+            });
+        };
+    }, [activeCategory, searchQuery, setBlogState]);
 
     return (
         <div ref={containerRef} className="w-full min-h-screen pt-24 sm:pt-32 bg-transparent overflow-x-hidden relative">

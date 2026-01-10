@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SERVICES_DATA, ServiceItem } from './servicesData';
 import SEOHead from '../Utils/SEOHead';
 import BreadcrumbNav from '../UI/BreadcrumbNav';
+import { useUIStore } from '../../store/useUIStore';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -87,54 +88,92 @@ const SectionHeader: React.FC<{ title: string; subtitle: string; isDark?: boolea
 const ServicesPage: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
+    
+    // Store'dan state al
+    const servicesState = useUIStore((state) => state.services);
+    const setServicesState = useUIStore((state) => state.setServicesState);
 
-    // Initial page load animations (run once)
+    // Scroll restoration - DOM paint'ten ÖNCE
+    useLayoutEffect(() => {
+        if (servicesState.isHydrated && servicesState.scrollY > 0) {
+            window.scrollTo(0, servicesState.scrollY);
+        }
+    }, []);
+
+    // Smart animations - Sadece ilk ziyarette animasyon oynat
     useEffect(() => {
+        const shouldAnimate = !servicesState.isHydrated;
+        
         const ctx = gsap.context(() => {
             const chars = containerRef.current?.querySelectorAll('.char');
             if (chars && chars.length > 0) {
-                gsap.from(chars, {
-                    yPercent: 120,
-                    stagger: 0.05,
-                    duration: 1.2,
-                    ease: "power4.out",
-                    delay: 0.2
-                });
+                if (shouldAnimate) {
+                    gsap.from(chars, {
+                        yPercent: 120,
+                        stagger: 0.05,
+                        duration: 1.2,
+                        ease: "power4.out",
+                        delay: 0.2
+                    });
+                } else {
+                    gsap.set(chars, { yPercent: 0 });
+                }
             }
 
-            gsap.from(".hero-line-anim", {
-                y: 100,
-                opacity: 0,
-                stagger: 0.1,
-                duration: 1.2,
-                ease: "power4.out",
-                delay: 0.6
-            });
+            if (shouldAnimate) {
+                gsap.from(".hero-line-anim", {
+                    y: 100,
+                    opacity: 0,
+                    stagger: 0.1,
+                    duration: 1.2,
+                    ease: "power4.out",
+                    delay: 0.6
+                });
+            } else {
+                gsap.set(".hero-line-anim", { y: 0, opacity: 1 });
+            }
         }, containerRef);
         
         return () => ctx.revert();
     }, []); // Only run once on mount
 
-    // Service rows scroll animations (optimized with batch)
+    // Service rows animations - Smart animations ile
     useEffect(() => {
+        const shouldAnimate = !servicesState.isHydrated;
+        
         const ctx = gsap.context(() => {
-            // Use ScrollTrigger.batch for better performance
             ScrollTrigger.batch(".service-row", {
                 start: "top 90%",
-                onEnter: (batch) => gsap.from(batch, {
-                    y: 30,
-                    opacity: 0,
-                    duration: 0.8,
-                    ease: "power3.out",
-                    stagger: 0.1,
-                    overwrite: true
-                }),
-                once: true // Only animate once for performance
+                onEnter: (batch) => {
+                    if (shouldAnimate) {
+                        gsap.from(batch, {
+                            y: 30,
+                            opacity: 0,
+                            duration: 0.8,
+                            ease: "power3.out",
+                            stagger: 0.1,
+                            overwrite: true
+                        });
+                    } else {
+                        gsap.set(batch, { y: 0, opacity: 1 });
+                    }
+                },
+                once: true
             });
         }, containerRef);
         
         return () => ctx.revert();
-    }, []); // Only set up once
+    }, [servicesState.isHydrated]);
+    
+    // State'i kaydet - Component unmount olduğunda
+    useEffect(() => {
+        return () => {
+            setServicesState({
+                scrollY: window.scrollY,
+                isHydrated: true
+            });
+        };
+    }, [setServicesState]);
 
     const splitText = (text: string) => {
         return text.split('').map((char, i) => (
