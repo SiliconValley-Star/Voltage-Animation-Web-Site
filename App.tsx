@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import IgnitionLoader from './components/UI/IgnitionLoader';
@@ -34,10 +34,25 @@ const App: React.FC = () => {
     setIsLoading(false);
   };
 
+  // Manuel scroll restoration - Native app hissiyatı için
+  useEffect(() => {
+    // Browser'ın otomatik scroll restoration'ını devre dışı bırak
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    
+    // Cleanup: Component unmount olursa ayarı eski haline getir
+    return () => {
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'auto';
+      }
+    };
+  }, []);
+
   return (
     <ErrorBoundary>
       <ScrollProvider>
-        {isLoading && isMobile && <IgnitionLoader onComplete={handleLoadingComplete} />}
+        {isLoading && <IgnitionLoader onComplete={handleLoadingComplete} />}
         <BrowserRouter>
           <Analytics />
           <ComponentPreloader />
