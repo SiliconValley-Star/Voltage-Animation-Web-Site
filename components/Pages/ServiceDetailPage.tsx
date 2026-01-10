@@ -67,7 +67,7 @@ const ServiceDetailPage: React.FC = () => {
     if (!service) return null;
 
     return (
-        <div ref={containerRef} className="bg-[#050505] min-h-screen text-white pt-32 pb-20 relative">
+        <div ref={containerRef} className="w-full bg-[#050505] min-h-screen relative z-[999] text-white animate-in fade-in duration-700 font-sans top-0 left-0">
             {/* CLOSE BUTTON (As Back Navigation) */}
             <button
                 onClick={() => {
@@ -77,7 +77,7 @@ const ServiceDetailPage: React.FC = () => {
                     });
                     navigate(-1);
                 }}
-                className="fixed top-28 right-4 sm:top-32 sm:right-8 z-[1000] w-10 h-10 sm:w-12 sm:h-12 border border-white/20 rounded-full flex items-center justify-center bg-black/50 backdrop-blur-md hover:bg-white hover:text-black transition-all group"
+                className="fixed top-32 right-4 sm:top-32 sm:right-8 z-[1000] w-10 h-10 sm:w-12 sm:h-12 border border-white/20 rounded-full flex items-center justify-center bg-black/50 backdrop-blur-md hover:bg-white hover:text-black transition-all group"
             >
                 <span className="group-hover:rotate-90 transition-transform duration-300 text-base sm:text-lg">✕</span>
             </button>
