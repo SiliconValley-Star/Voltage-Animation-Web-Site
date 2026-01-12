@@ -17,19 +17,36 @@ const Transformer: React.FC<TransformerProps> = ({ isMobile, isBackground = fals
   const { scrollY, scrollProgress } = useScrollState();
   
   // GPU Tier Detection for intelligent fallback
-  // CRITICAL FIX: Intel HD/UHD Graphics protection against MeshTransmissionMaterial freeze
+  // 2026 UPDATE: Modernized Intel GPU detection - only filter truly old GPUs
+  // Modern Intel Iris Xe (2020+), Arc series (2022+), and UHD 7xx can handle premium materials
   const GPUTier = useDetectGPU();
   const isLowEndGPU = useMemo(() => {
-    // Check for Intel integrated graphics (common in laptops)
     const gpuName = GPUTier.gpu?.toLowerCase() || '';
-    const isIntelIntegrated = gpuName.includes('intel') ||
-                              gpuName.includes('uhd') ||
-                              gpuName.includes('hd graphics');
     
-    // Tier 2 and below should use fallback material for stability
-    const isLowTier = GPUTier.tier !== undefined && GPUTier.tier <= 2;
+    // WHITELIST: Modern Intel GPUs that CAN handle MeshTransmissionMaterial
+    const isModernIntelGPU =
+      gpuName.includes('iris xe') ||      // 11th gen+ integrated (2020+)
+      gpuName.includes('arc a') ||        // Arc discrete GPUs (2022+)
+      gpuName.includes('uhd 7') ||        // UHD 7xx series, Iris Xe based (2021+)
+      gpuName.includes('iris plus');      // 10th gen integrated (2019+)
     
-    return isLowTier || isIntelIntegrated;
+    // If it's a modern Intel GPU, allow premium material
+    if (isModernIntelGPU) {
+      return false;
+    }
+    
+    // BLACKLIST: Old Intel GPUs that should use fallback material
+    const isOldIntelGPU =
+      gpuName.includes('hd graphics') ||  // HD Graphics 500-630 series (2011-2018)
+      gpuName.includes('hd 2000') ||      // 2nd gen (2011)
+      gpuName.includes('hd 3000') ||      // 2nd gen (2011)
+      gpuName.includes('hd 4000') ||      // 3rd gen (2012)
+      gpuName.includes('uhd 6');          // UHD 600 series entry-level (2017-2019)
+    
+    // Tier 1 GPUs (very weak) should use fallback for stability
+    const isVeryLowTier = GPUTier.tier !== undefined && GPUTier.tier <= 1;
+    
+    return isVeryLowTier || isOldIntelGPU;
   }, [GPUTier.tier, GPUTier.gpu]);
   
   // Cache DOM measurements to avoid repeated queries
