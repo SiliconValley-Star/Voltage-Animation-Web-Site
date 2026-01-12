@@ -1,16 +1,26 @@
+# Apache Options
+Options -MultiViews
+Options +FollowSymLinks
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
   
-  # HTTPS Redirect (Opsiyonel - cPanel'de SSL varsa yorumu kaldırın)
+  # HTTPS Redirect (SSL varsa yorumu kaldırın)
   # RewriteCond %{HTTPS} off
-  # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+  # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
   
-  # React Router - Tüm istekleri index.html'e yönlendir
+  # React Router için SPA routing
+  # Mevcut dosya değilse ve dizin değilse
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-l
-  RewriteRule . /index.html [L]
+  
+  # API çağrıları veya özel endpoint'ler için istisna (varsa)
+  RewriteCond %{REQUEST_URI} !^/api/
+  
+  # Tüm istekleri index.html'e yönlendir
+  RewriteRule ^ index.html [QSA,L]
   
   # Tarayıcı Cache (Performance)
   <IfModule mod_expires.c>
@@ -70,3 +80,13 @@
     Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
   </IfModule>
 </IfModule>
+
+# Custom Error Pages
+ErrorDocument 404 /index.html
+ErrorDocument 403 /index.html
+
+# Prevent directory listing
+Options -Indexes
+
+# Set default charset
+AddDefaultCharset UTF-8
