@@ -1,22 +1,46 @@
+# Şensoy Elektrik - Robots.txt
+# Son Güncelleme: 2026-01-12
+
 User-agent: *
 Allow: /
 
-# Important pages
+# İzin verilen sayfalar
 Allow: /about
-Allow: /services
-Allow: /projects
-Allow: /blog
+Allow: /services/
+Allow: /projects/
+Allow: /blog/
 Allow: /sss
 Allow: /contact
 
-# Block development files
+# Engellenen dizinler ve dosyalar
 Disallow: /src/
 Disallow: /node_modules/
+Disallow: /dist/
 Disallow: /*.json$
 Disallow: /*.map$
+Disallow: /*.ts$
+Disallow: /*.tsx$
+Disallow: /DEPLOYMENT_GUIDE.md
+Disallow: /FORENSIC_AUDIT_REPORT.md
+Disallow: /IMAGE_DOWNLOAD_GUIDE.md
 
-# Sitemap location
+# Google Bot - Özel izinler
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing Bot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+# Yandex Bot
+User-agent: Yandex
+Allow: /
+Crawl-delay: 1
+
+# Sitemap konumu
 Sitemap: https://sensoyelektrik.com.tr/sitemap.xml
 
-# Crawl delay (optional, helps with server load)
-Crawl-delay: 1
+# Host tanımı (SEO için)
+Host: https://sensoyelektrik.com.tr
